@@ -1,5 +1,12 @@
 package com.fourthgroup.projectmanageman.model;
 
+/*
+    ===============================
+    Author: Simon Roswall Jørgensen
+    Date: Nov 26, 2021
+    ===============================
+ */
+
 public class Assignment {
 
     private final int id;
