@@ -1,6 +1,11 @@
 package com.fourthgroup.projectmanageman.model;
 
-//@Mark Kaplan Hansen
+/*
+    ===============================
+    Author: Mark Kaplan Hansen
+    Date: Nov 26, 2021
+    ===============================
+ */
 public class Role {
     private int id;
     private String roleName;
