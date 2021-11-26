@@ -1,4 +1,5 @@
 package com.fourthgroup.projectmanageman.model;
 
-public class Status {
+public enum Status {
+    STARTED, PENDING, CLOSED
 }
