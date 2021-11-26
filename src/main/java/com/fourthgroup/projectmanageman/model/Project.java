@@ -10,17 +10,24 @@ import java.time.LocalDateTime;
  */
 
 public class Project {
-    int id;
-    int parentProjectID;
-    String title;
-    String client;
-    LocalDateTime startDate; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
-    LocalDateTime deadline; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
-    int estTimeHours;
-    int spentTimeHours;
-    Status status;
+    private final int id;
+    private int parentProjectID;
+    private String title;
+    private String client;
+    private LocalDateTime startDate; //Java: YYYY-MM-DDTHH:MM:SS - SQL format: YYYY-MM-DD
+    private LocalDateTime deadline; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
+    private int estTimeHours;
+    private int spentTimeHours;
+    private Status status;
 
-    public Project(int id, int parentProjectID, String title, String client, LocalDateTime startDate, LocalDateTime deadline, int estTimeHours, int spentTimeHours, Status status) {
+    public Project(int id, int parentProjectID,
+                   String title,
+                   String client,
+                   LocalDateTime startDate,
+                   LocalDateTime deadline,
+                   int estTimeHours,
+                   int spentTimeHours,
+                   Status status) {
         this.id = id;
         this.parentProjectID = parentProjectID;
         this.title = title;

@@ -9,10 +9,10 @@ package com.fourthgroup.projectmanageman.model;
 
 
 public class UserProjectRole {
-    int id;
-    int roleId;
-    int personId;
-    int projectId;
+    private final int id;
+    private int roleId;
+    private int personId;
+    private int projectId;
 
     public UserProjectRole(int id, int roleId, int personId, int projectId) {
         this.id = id;
