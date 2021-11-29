@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Project</title>
+</head>
+<body>
+    <h1>Create new Project</h1>
+
+    <form th:action="@{/new-project}" method="post">
+        <div>
+            <label for="title">Project Title: </label>
+            <input id="title" name="title" type="text">
+        </div>
+        <div>
+            <label for="client">Client: </label>
+            <input id="client" name="client" type="text">
+        </div>
+        <div>
+            <label for="start-date">Project start: </label>
+            <input id="start-date" name="start" type="datetime-local" th:value="${#temporals.format(#temporals.createNow(), 'dd-MM-YY')}">
+        </div>
+        <div>
+            <label for="deadline">Project Title: </label>
+            <input id="deadline" name="deadline" type="datetime-local">
+        </div>
+        <button type="submit">Create</button>
+    </form>
+</body>
+</html>

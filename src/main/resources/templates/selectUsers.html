@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Participants</title>
+</head>
+<body>
+    <div>
+        <form method="post" th:action="${add_participants}">
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user: ${users}">
+                    <td th:text="${user.getFirstname()}"></td>
+                    <td th:text="${user.getLastname()}"></td>
+                    <td>
+                        <label th:for="${user.getId()}"></label>
+                        <input type="checkbox" th:id="${user.getId()}" th:name="'user' + ${user.getId()}" th:value="${user}">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+            <input type="submit" value="Select Participants">
+        </form>
+    </div>
+</body>
+</html>
