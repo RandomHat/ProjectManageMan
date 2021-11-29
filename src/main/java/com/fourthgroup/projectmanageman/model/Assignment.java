@@ -23,8 +23,8 @@ public class Assignment {
         return id;
     }
 
-    public UserProjectRole getRole() {
-        return role;
+    public User getUser() {
+        return user;
     }
 
     public int getTaskID() {
