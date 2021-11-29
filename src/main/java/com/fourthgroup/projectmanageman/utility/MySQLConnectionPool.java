@@ -49,7 +49,8 @@ public class MySQLConnectionPool implements ConnectionPool {
 
     @Override
     public boolean releaseConnection(Connection connection) {
-        return false;
+        pool.add(connection);
+        return usedConnections.remove(connection);
     }
 
     private static Connection createConnection(
