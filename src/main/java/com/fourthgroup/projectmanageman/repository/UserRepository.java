@@ -35,7 +35,7 @@ public class UserRepository {
                 currentUser.setId(resultSet.getInt("person_id"));
                 currentUser.setFirstname(resultSet.getString("firstname"));
                 currentUser.setLastname(resultSet.getString("lastname"));
-                currentUser.setPhonenumber(resultSet.getString("phonenum"));
+                currentUser.setPhonenumber(resultSet.getString("phonenumber"));
                 currentUser.setEmail(resultSet.getString("email"));
                 currentUser.setUsername(resultSet.getString("username"));
                 currentUser.setPassword(resultSet.getString("password"));
@@ -52,7 +52,7 @@ public class UserRepository {
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO USERS (firstname,lastname,phonenum,email,username,password) VALUS(?,?,?,?,?,?)");
+            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO USERS (firstname,lastname,phonenumber,email,username,password) VALUS(?,?,?,?,?,?)");
             pstmt.setString(1, user.getFirstname());
             pstmt.setString(2, user.getLastname());
             pstmt.setString(3, user.getPhonenumber());
