@@ -35,7 +35,7 @@ public class Assignment {
     public String toString() {
         return "Assignment{" +
                 "id=" + id +
-                ", role=" + role +
+                ", user=" + user +
                 ", taskID=" + taskID +
                 '}';
     }
