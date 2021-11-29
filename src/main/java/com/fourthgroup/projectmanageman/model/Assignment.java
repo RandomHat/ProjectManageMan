@@ -10,12 +10,12 @@ package com.fourthgroup.projectmanageman.model;
 public class Assignment {
 
     private final int id;
-    private final UserProjectRole role;
+    private final User user;
     private final int taskID;
 
-    public Assignment(int id, UserProjectRole role, int taskID){
+    public Assignment(int id, User user, int taskID){
         this.id = id;
-        this.role = role;
+        this.user = user;
         this.taskID = taskID;
     }
 
@@ -23,8 +23,8 @@ public class Assignment {
         return id;
     }
 
-    public UserProjectRole getRole() {
-        return role;
+    public User getUser() {
+        return user;
     }
 
     public int getTaskID() {
@@ -35,7 +35,7 @@ public class Assignment {
     public String toString() {
         return "Assignment{" +
                 "id=" + id +
-                ", role=" + role +
+                ", user=" + user +
                 ", taskID=" + taskID +
                 '}';
     }
