@@ -13,6 +13,7 @@ public class Project {
     private final int id;
     private int parentProjectID;
     private String title;
+    private String description;
     private String client;
     private LocalDateTime startDate; //Java: YYYY-MM-DDTHH:MM:SS - SQL format: YYYY-MM-DD
     private LocalDateTime deadline; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
@@ -22,6 +23,7 @@ public class Project {
 
     public Project(int id, int parentProjectID,
                    String title,
+                   String description,
                    String client,
                    LocalDateTime startDate,
                    LocalDateTime deadline,
@@ -31,6 +33,7 @@ public class Project {
         this.id = id;
         this.parentProjectID = parentProjectID;
         this.title = title;
+        this.description = description;
         this.client = client;
         this.startDate = startDate;
         this.deadline = deadline;
@@ -45,6 +48,7 @@ public class Project {
                 "id=" + id +
                 ", parentProjectID=" + parentProjectID +
                 ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", client='" + client + '\'' +
                 ", startDate=" + startDate +
                 ", deadline=" + deadline +
@@ -66,12 +70,16 @@ public class Project {
         return title;
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
+    public String getDescription() {
+        return description;
     }
 
     public String getClient() {
         return client;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
     public LocalDateTime getDeadline() {
@@ -98,12 +106,16 @@ public class Project {
         this.title = title;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setClient(String client) {
         this.client = client;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 
     public void setDeadline(LocalDateTime deadline) {
