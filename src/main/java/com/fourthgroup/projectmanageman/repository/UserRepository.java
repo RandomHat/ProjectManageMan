@@ -48,7 +48,7 @@ public class UserRepository {
         return listOfUsers;
     }
 
-    public boolean addUserToDB(User user) {
+    public boolean writeUser(User user) {
         PreparedStatement pstmt = null;
 
         try {
