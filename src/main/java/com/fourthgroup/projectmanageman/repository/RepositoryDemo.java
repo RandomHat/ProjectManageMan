@@ -9,4 +9,7 @@ public class RepositoryDemo {
 
     @Autowired
     ConnectionPool connectionPool;
+
+    Connection conn = connectionPool.getConnection();
+
 }
