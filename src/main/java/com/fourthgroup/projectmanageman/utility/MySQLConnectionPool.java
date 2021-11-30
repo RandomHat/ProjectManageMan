@@ -19,7 +19,7 @@ public class MySQLConnectionPool implements ConnectionPool {
     private String password;
     private List<Connection> pool;
     private List<Connection> usedConnections = new ArrayList<>();
-    private static int INITIAL_POOL_SIZE = 10;
+    private static int INITIAL_POOL_SIZE = 5;
 
     public static MySQLConnectionPool create(
             String url, String username, String password)
