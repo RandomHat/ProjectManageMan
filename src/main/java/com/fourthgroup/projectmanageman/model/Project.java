@@ -10,20 +10,30 @@ import java.time.LocalDateTime;
  */
 
 public class Project {
-    int id;
-    int parentProjectID;
-    String title;
-    String client;
-    LocalDateTime startDate; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
-    LocalDateTime deadline; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
-    int estTimeHours;
-    int spentTimeHours;
-    Status status;
+    private final int id;
+    private int parentProjectID;
+    private String title;
+    private String description;
+    private String client;
+    private LocalDateTime startDate; //Java: YYYY-MM-DDTHH:MM:SS - SQL format: YYYY-MM-DD
+    private LocalDateTime deadline; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
+    private int estTimeHours;
+    private int spentTimeHours;
+    private Status status;
 
-    public Project(int id, int parentProjectID, String title, String client, LocalDateTime startDate, LocalDateTime deadline, int estTimeHours, int spentTimeHours, Status status) {
+    public Project(int id, int parentProjectID,
+                   String title,
+                   String description,
+                   String client,
+                   LocalDateTime startDate,
+                   LocalDateTime deadline,
+                   int estTimeHours,
+                   int spentTimeHours,
+                   Status status) {
         this.id = id;
         this.parentProjectID = parentProjectID;
         this.title = title;
+        this.description = description;
         this.client = client;
         this.startDate = startDate;
         this.deadline = deadline;
@@ -38,6 +48,7 @@ public class Project {
                 "id=" + id +
                 ", parentProjectID=" + parentProjectID +
                 ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", client='" + client + '\'' +
                 ", startDate=" + startDate +
                 ", deadline=" + deadline +
@@ -59,12 +70,16 @@ public class Project {
         return title;
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
+    public String getDescription() {
+        return description;
     }
 
     public String getClient() {
         return client;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
     public LocalDateTime getDeadline() {
@@ -91,12 +106,16 @@ public class Project {
         this.title = title;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setClient(String client) {
         this.client = client;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 
     public void setDeadline(LocalDateTime deadline) {
