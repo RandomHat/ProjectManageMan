@@ -2,17 +2,17 @@ package com.fourthgroup.projectmanageman.repository;
 
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.Status;
-import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.utility.ConnectionPool;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+// Frederik
 
 public class ProjectRepository {
     @Autowired
@@ -46,4 +46,29 @@ public class ProjectRepository {
         }
         return listOfProjects;
     }
+
+
+    public boolean writeNewProjectComplete(Project project) {
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO project (parent_project_id, status, title, startdate, client, deadline, est_time_hours, spent_hours, description) VALUES(?,?,?,?,?,?,?,?,?)");
+            pstmt.setInt(1, project.getParentProjectID());
+            pstmt.setInt(2, project.getStatusAsInt());
+            pstmt.setString(3, project.getTitle());
+            pstmt.setDate(4, project.getStartDateSQL());
+            pstmt.setString(5, project.getClient());
+            pstmt.setDate(6, project.getDeadlineSQL());
+            pstmt.setInt(7, project.getEstTimeHours()); //Passer ikke overens med DB??
+            pstmt.setInt(8, project.getSpentTimeHours()); // ----
+            pstmt.setString(9, project.getDescription());
+
+            return pstmt.execute();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
 }

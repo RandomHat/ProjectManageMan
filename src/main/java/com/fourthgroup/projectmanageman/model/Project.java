@@ -1,7 +1,7 @@
 package com.fourthgroup.projectmanageman.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 /*
     ===============================
@@ -16,8 +16,8 @@ public class Project {
     private String title;
     private String description;
     private String client;
-    private LocalDate startDate; //Java: YYYY-MM-DDTHH:MM:SS - SQL format: YYYY-MM-DD
-    private LocalDate deadline; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
+    private LocalDate startDate; //Java: YYYY-MM-DD - SQL format: YYYY-MM-DD
+    private LocalDate deadline; //Java: 2021-11-28 - SQL format: YYYY-MM-DD
     private int estTimeHours;
     private int spentTimeHours;
     private Status status;
@@ -85,8 +85,16 @@ public class Project {
         return startDate;
     }
 
+    public Date getStartDateSQL() {
+        return Date.valueOf(startDate);
+    }
+
     public LocalDate getDeadline() {
         return deadline;
+    }
+
+    public Date getDeadlineSQL() {
+        return Date.valueOf(deadline);
     }
 
     public int getEstTimeHours() {
@@ -99,6 +107,10 @@ public class Project {
 
     public Status getStatus() {
         return status;
+    }
+
+    public int getStatusAsInt() {
+        return status.ordinal();
     }
 
     public void setParentProjectID(int parentProjectID) {

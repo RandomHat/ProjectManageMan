@@ -3,6 +3,7 @@ package com.fourthgroup.projectmanageman.model;
 public enum Status {
     STARTED, PENDING, CLOSED;
 
+
     public static Status fromInteger(int x) {
         switch(x) {
             case 0:
