@@ -1,5 +1,6 @@
 package com.fourthgroup.projectmanageman.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /*
@@ -10,27 +11,26 @@ import java.time.LocalDateTime;
  */
 
 public class Project {
-    private final int id;
+    private int id;
     private int parentProjectID;
     private String title;
     private String description;
     private String client;
-    private LocalDateTime startDate; //Java: YYYY-MM-DDTHH:MM:SS - SQL format: YYYY-MM-DD
-    private LocalDateTime deadline; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
+    private LocalDate startDate; //Java: YYYY-MM-DDTHH:MM:SS - SQL format: YYYY-MM-DD
+    private LocalDate deadline; //Java: 2021-11-28T10:15:30 - SQL format: YYYY-MM-DD
     private int estTimeHours;
     private int spentTimeHours;
     private Status status;
 
-    public Project(int id, int parentProjectID,
+    public Project(int parentProjectID,
                    String title,
                    String description,
                    String client,
-                   LocalDateTime startDate,
-                   LocalDateTime deadline,
+                   LocalDate startDate,
+                   LocalDate deadline,
                    int estTimeHours,
                    int spentTimeHours,
                    Status status) {
-        this.id = id;
         this.parentProjectID = parentProjectID;
         this.title = title;
         this.description = description;
@@ -40,6 +40,9 @@ public class Project {
         this.estTimeHours = estTimeHours;
         this.spentTimeHours = spentTimeHours;
         this.status = status;
+    }
+
+    public Project() {
     }
 
     @Override
@@ -78,11 +81,11 @@ public class Project {
         return client;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public LocalDateTime getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
@@ -114,11 +117,11 @@ public class Project {
         this.client = client;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
