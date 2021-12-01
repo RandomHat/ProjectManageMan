@@ -4,19 +4,24 @@ import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.Status;
 import com.fourthgroup.projectmanageman.utility.ConnectionPool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 // Frederik
 
+@Component
 public class ProjectRepository {
-    @Autowired
+    //@Autowired
     ConnectionPool connectionPool;
+    List<Project> projectList;
+
 
     public List<Project> getAllProjects() {
         List<Project> listOfProjects = new ArrayList<>();
@@ -47,27 +52,26 @@ public class ProjectRepository {
         return listOfProjects;
     }
 
-
-    public boolean writeNewProjectComplete(Project project) {
+    public int writeNewProjectComplete(Project project) {
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO project (parent_project_id, status, title, startdate, client, deadline, est_time_hours, spent_hours, description) VALUES(?,?,?,?,?,?,?,?,?)");
+            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO projects (parent_project_id, status, title, startdate, client, deadline, est_time_hours, spent_hours, description) VALUES(?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, project.getParentProjectID());
             pstmt.setInt(2, project.getStatusAsInt());
             pstmt.setString(3, project.getTitle());
             pstmt.setDate(4, project.getStartDateSQL());
             pstmt.setString(5, project.getClient());
             pstmt.setDate(6, project.getDeadlineSQL());
-            pstmt.setInt(7, project.getEstTimeHours()); //Passer ikke overens med DB??
+            pstmt.setInt(7, project.getEstTimeHours()); //Passer ikke overens med DB type
             pstmt.setInt(8, project.getSpentTimeHours()); // ----
             pstmt.setString(9, project.getDescription());
 
-            return pstmt.execute();
+            return pstmt.executeUpdate(); //Returns project_id key for inserted project akin to "SELECT LAST_INSERT_ID()"
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
+            return 0;
         }
     }
 
