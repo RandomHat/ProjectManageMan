@@ -10,6 +10,13 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+    ===============================
+    Author: Mark Kaplan Hansen
+    Date: Nov 29, 2021
+    ===============================
+ */
+
 class RoleRepositoryTest {
 
     @Test

@@ -15,6 +15,8 @@ public class User {
     private String username;
     private String password;
 
+    private boolean isAdmin;
+
     public User() {
     }
 
@@ -26,6 +28,7 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.isAdmin = false;
     }
 
     public int getId() {
@@ -82,6 +85,18 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public void setAdminDB(int tinyint){
+        isAdmin = tinyint == 1;
     }
 
     @Override

@@ -10,8 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Component
+/*
+    ===============================
+    Author: Mark Kaplan Hansen
+    Date: Nov 29, 2021
+    ===============================
+ */
 
+@Component
 public class RoleRepository {
 
     ConnectionPool connectionPool;
