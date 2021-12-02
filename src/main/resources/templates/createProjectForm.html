@@ -18,11 +18,11 @@
         </div>
         <div>
             <label for="start-date">Project start: </label>
-            <input id="start-date" name="start" type="datetime-local" th:value="${#temporals.format(#temporals.createNow(), 'dd-MM-YY')}">
+            <input id="start-date" name="start" type="date" th:value="${#temporals.format(#temporals.createNow(), 'dd-MM-YY')}">
         </div>
         <div>
             <label for="deadline">Project Title: </label>
-            <input id="deadline" name="deadline" type="datetime-local">
+            <input id="deadline" name="deadline" type="date">
         </div>
         <button type="submit">Create</button>
     </form>
