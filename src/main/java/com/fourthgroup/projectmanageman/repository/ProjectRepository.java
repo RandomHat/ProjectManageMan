@@ -107,4 +107,8 @@ public class ProjectRepository {
         }
     }
 
+    @Autowired
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
 }

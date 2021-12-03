@@ -2,6 +2,7 @@ package com.fourthgroup.projectmanageman.controller;
 
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
+import com.fourthgroup.projectmanageman.service.UserProjectRoleService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,9 +13,18 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpSession;
 
+/*
+    ===============================
+    Author: Frederik Wandall von Benzon
+    Date: Dec 1, 2021
+    ===============================
+ */
+
 public class ProjectController {
 
     private ProjectService projectService = new ProjectService();
+    private UserProjectRoleService userProjectRoleService = new UserProjectRoleService();
+
 
     @GetMapping("/create/create-project")
     public String createProjectGet(HttpSession session){
@@ -48,7 +58,17 @@ public class ProjectController {
     public String assignProjectManager (@PathVariable int projectId, User user){
         Project project = projectService.getProjectById(projectId);
 
-        return "single-project";
+        int a = userProjectRoleService.assignManagerToProject(user, project);
+
+        return "assign-manager";
+    }
+
+    @PostMapping("project/{projectId}/assign-participant")
+    public String assignProjectParticipant (@PathVariable int projectId, User user){
+        Project project = projectService.getProjectById(projectId);
+
+        int a = userProjectRoleService.assignParticipantToProject(user, project);
+        return "assign-participant";
     }
 
 }

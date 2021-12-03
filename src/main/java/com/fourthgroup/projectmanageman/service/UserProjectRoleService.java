@@ -6,6 +6,7 @@ import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.model.UserProjectRole;
 import com.fourthgroup.projectmanageman.repository.ProjectEnrollmentRepository;
 import com.fourthgroup.projectmanageman.repository.ProjectRepository;
+import com.fourthgroup.projectmanageman.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
 /*
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class UserProjectRoleService {
 
     private final ProjectEnrollmentRepository projectEnrollmentRepository = new ProjectEnrollmentRepository();
+    private final RoleRepository roleRepository = new RoleRepository();
 
     public int assignUserToProject (User user, Project project, int roleId){
         int userId = user.getId();
@@ -30,11 +32,13 @@ public class UserProjectRoleService {
     }
 
     public int assignManagerToProject (User user, Project project){
-        return assignUserToProject(user, project, 5);
+        int roleId = roleRepository.getRole("Manager").getId();
+        return assignUserToProject(user, project, 5); //Manager = 5
     }
 
     public int assignParticipantToProject (User user, Project project){
-        return assignUserToProject(user, project, 15);
+        int roleId = roleRepository.getRole("Participant").getId();
+        return assignUserToProject(user, project, 15); //Participant = 15
     }
 
 }
