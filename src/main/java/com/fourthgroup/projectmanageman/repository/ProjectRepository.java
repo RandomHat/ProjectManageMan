@@ -12,7 +12,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-// Frederik
+/*
+    ===============================
+    Author: Frederik Wandall von Benzon
+    Date: Nov 26, 2021
+    ===============================
+ */
 
 @Component
 public class ProjectRepository {
