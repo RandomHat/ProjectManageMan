@@ -16,15 +16,15 @@
                         <h4> Create new Account</h4>
                         <div class="row">
                             <div class="col-xs-6 col-md-6">
-                                <input th:type="text" name="firstName" class="form-control input-lg" placeholder="First Name" >
+                                <input th:type="text" name="firstName" class="form-control input-lg" placeholder="First Name" required>
                             </div>
                             <div class="col-xs-6 col-md-6">
-                                <input th:type="text" name="lastName" class="form-control input-lg" placeholder="Last Name">
+                                <input th:type="text" name="lastName" class="form-control input-lg" placeholder="Last Name" required>
                             </div>
                         </div>
 
                         <div class="col-xs-12 col-md-12">
-                            <input th:type="text" name="email" class="form-control input-lg" placeholder="Email">
+                            <input th:type="text" name="email" class="form-control input-lg" placeholder="Email" required>
                         </div>
                         <div class="col-xs-12 col-md-12 ">
                             <input th:type="text" name="phonenumber" class="form-control input-lg" placeholder="Phonenumber">
@@ -33,10 +33,10 @@
                             <input th:type="text" name="username" class="form-control input-lg" placeholder="Username" required>
                         </div>
                         <div class="col-xs-12 col-md-12">
-                            <input th:type="password" name="password" class="form-control input-lg" placeholder="Password">
+                            <input th:type="password" name="password" class="form-control input-lg" placeholder="Password" required>
                         </div>
                         <div class="col-xs-12 col-md-12">
-                            <input th:type="password" name="confirmPassword" class="form-control input-lg" placeholder="Confirm Password">
+                            <input th:type="password" name="confirmPassword" class="form-control input-lg" placeholder="Confirm Password" required>
                         </div>
                             <button class="btn btn-lg btn-primary btn-block signup-btn col-12" th:type="submit">
                                 Create Account

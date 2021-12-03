@@ -35,6 +35,5 @@ public class UserController {
         } else {
             return "redirect:/Create-account";
         }
-
     }
 }
