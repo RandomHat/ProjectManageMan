@@ -1,4 +1,4 @@
-package service;
+package com.fourthgroup.projectmanageman.service;
 
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.repository.UserRepository;

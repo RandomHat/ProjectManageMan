@@ -1,14 +1,10 @@
-package controller;
+package com.fourthgroup.projectmanageman.controller;
 
 import com.fourthgroup.projectmanageman.model.Project;
-import com.fourthgroup.projectmanageman.repository.ProjectRepository;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-import service.ProjectService;
+import com.fourthgroup.projectmanageman.service.ProjectService;
 
 import javax.servlet.http.HttpSession;
 
