@@ -1,15 +1,13 @@
 package com.fourthgroup.projectmanageman.repository;
 
 import com.fourthgroup.projectmanageman.model.Project;
+import com.fourthgroup.projectmanageman.model.Role;
 import com.fourthgroup.projectmanageman.model.Status;
 import com.fourthgroup.projectmanageman.utility.ConnectionPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +20,35 @@ public class ProjectRepository {
     ConnectionPool connectionPool;
     List<Project> projectList;
 
+    public Project getProjectById(int id) {
+        Connection connection = connectionPool.getConnection();
+        Project project = new Project();
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = connection.prepareStatement("SELECT * FROM projects where project_id = ?");
+            pstmt.setInt(1, id);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                project.setParentProjectID(resultSet.getInt("parent_project_id"));
+                project.setTitle(resultSet.getString("title"));
+                project.setStatus(Status.fromInteger(resultSet.getInt("status")));
+                project.setDescription(resultSet.getString("description"));
+                project.setClient(resultSet.getString("client"));
+                project.setStartDate(LocalDate.parse(resultSet.getString("startdate"))); //Parse sqldate to Localdate
+                project.setDeadline(LocalDate.parse(resultSet.getString("deadline")));
+                project.setEstTimeHours(resultSet.getInt("est_time_hours"));
+                project.setSpentTimeHours(resultSet.getInt("spent_hours"));
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        connectionPool.releaseConnection(connection);
+        return project;
+    }
 
     public List<Project> getAllProjects() {
         List<Project> listOfProjects = new ArrayList<>();

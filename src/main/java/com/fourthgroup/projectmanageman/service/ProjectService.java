@@ -5,13 +5,19 @@ package com.fourthgroup.projectmanageman.service;
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.repository.ProjectRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
+@Service
 public class ProjectService {
 
-    ProjectRepository projectRepo = new ProjectRepository();
+    private final ProjectRepository projectRepo = new ProjectRepository();
+
+    public Project getProjectById (int id){
+        return projectRepo.getProjectById(id);
+    }
 
 
     public int writeNewProject (Project project){
