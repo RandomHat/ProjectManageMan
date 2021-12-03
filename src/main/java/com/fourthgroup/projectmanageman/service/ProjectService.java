@@ -1,4 +1,4 @@
-package service;
+package com.fourthgroup.projectmanageman.service;
 
 // Fred
 
