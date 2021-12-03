@@ -23,7 +23,6 @@ import java.util.List;
 public class UserRepository {
 
     ConnectionPool connectionPool;
-    Date
     public List<User> getAllUsers() {
         Connection connection = connectionPool.getConnection();
         List<User> listOfUsers = new ArrayList<>();
@@ -36,8 +35,8 @@ public class UserRepository {
             while (resultSet.next()) {
                 User currentUser = new User();
                 currentUser.setId(resultSet.getInt("person_id"));
-                currentUser.setFirstname(resultSet.getString("firstname"));
-                currentUser.setLastname(resultSet.getString("lastname"));
+                currentUser.setFirstName(resultSet.getString("firstname"));
+                currentUser.setLastName(resultSet.getString("lastname"));
                 currentUser.setPhonenumber(resultSet.getString("phonenumber"));
                 currentUser.setEmail(resultSet.getString("email"));
                 currentUser.setUsername(resultSet.getString("username"));
@@ -58,8 +57,8 @@ public class UserRepository {
 
         try {
             pstmt = connection.prepareStatement("INSERT INTO USERS (firstname,lastname,phonenumber,email,username,password) VALUS(?,?,?,?,?,?)");
-            pstmt.setString(1, user.getFirstname());
-            pstmt.setString(2, user.getLastname());
+            pstmt.setString(1, user.getFirstName());
+            pstmt.setString(2, user.getLastName());
             pstmt.setString(3, user.getPhonenumber());
             pstmt.setString(4, user.getEmail());
             pstmt.setString(5, user.getUsername());
