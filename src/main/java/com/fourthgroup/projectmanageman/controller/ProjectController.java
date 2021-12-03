@@ -1,6 +1,7 @@
 package com.fourthgroup.projectmanageman.controller;
 
 import com.fourthgroup.projectmanageman.model.Project;
+import com.fourthgroup.projectmanageman.model.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,4 +43,12 @@ public class ProjectController {
 
         return "single-project";
     }
+
+    @PostMapping("project/{projectId}/assign-manager")
+    public String assignProjectManager (@PathVariable int projectId, User user){
+        Project project = projectService.getProjectById(projectId);
+
+        return "single-project";
+    }
+
 }

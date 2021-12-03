@@ -1,0 +1,49 @@
+package com.fourthgroup.projectmanageman.repository;
+
+import com.fourthgroup.projectmanageman.model.Project;
+import com.fourthgroup.projectmanageman.model.Role;
+import com.fourthgroup.projectmanageman.model.User;
+import com.fourthgroup.projectmanageman.model.UserProjectRole;
+import com.fourthgroup.projectmanageman.service.UserProjectRoleService;
+import com.fourthgroup.projectmanageman.utility.ConnectionPool;
+import org.springframework.stereotype.Component;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
+/*
+    ===============================
+    Author: Frederik Wandall von Benzon
+    Date: Dec 3, 2021
+    ===============================
+ */
+
+@Component
+public class ProjectEnrollmentRepository {
+    ConnectionPool connectionPool;
+    List<Project> projectList;
+    List<User> userList;
+
+    public int assignUserToProject(User user, Project project, Role role) {
+        PreparedStatement pstmt = null;
+        int userId = user.getId();
+        int projectId = project.getId();
+        int roleId = 5; //Manger = 5, participant = 15;
+        UserProjectRole userProjectRole = new UserProjectRole(userId, projectId, roleId);
+
+        try {
+            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO project_enrollment (person_id, project_id, role_id) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, userProjectRole.getPersonId());
+            pstmt.setInt(2, userProjectRole.getProjectId());
+            pstmt.setInt(3, userProjectRole.getRoleId());
+
+            return pstmt.executeUpdate(); //Returns key for inserted row"
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+}
