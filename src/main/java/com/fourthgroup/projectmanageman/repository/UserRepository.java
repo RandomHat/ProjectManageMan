@@ -56,7 +56,7 @@ public class UserRepository {
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = connection.prepareStatement("INSERT INTO USERS (firstname,lastname,phonenumber,email,username,password) VALUS(?,?,?,?,?,?)");
+            pstmt = connection.prepareStatement("INSERT INTO USERS (firstname,lastname,phonenumber,email,username,password) VALUES(?,?,?,?,?,?)");
             pstmt.setString(1, user.getFirstName());
             pstmt.setString(2, user.getLastName());
             pstmt.setString(3, user.getPhonenumber());

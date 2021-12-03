@@ -6,13 +6,15 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.util.Objects;
 
+/*
+    ===============================
+    Author: Mark Kaplan Hansen
+    Date: Nov 3, 2021
+    ===============================
+ */
 public class UserService {
 
     UserRepository userRepository = new UserRepository();
-
-
-
-
 
     public boolean writeUser(User user){
         return userRepository.writeUser(user);
@@ -30,4 +32,10 @@ public class UserService {
 
             return writeUser(currentUser);
     }
+
+    public boolean samePassword(WebRequest requestFromUser){
+        return Objects.equals(requestFromUser.getParameter("password"), requestFromUser.getParameter("confirmPassword"));
+    }
+
+
 }

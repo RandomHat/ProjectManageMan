@@ -1,15 +1,20 @@
-package controller;
+package com.fourthgroup.projectmanageman.controller;
 
-import com.fourthgroup.projectmanageman.model.User;
+
 import com.fourthgroup.projectmanageman.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
-import service.UserService;
-
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
+
+/*
+    ===============================
+    Author: Mark Kaplan Hansen
+    Date: Nov 3, 2021
+    ===============================
+ */
 
 @Controller
 public class UserController {
@@ -24,7 +29,7 @@ public class UserController {
     @PostMapping("/create-account")
     public String createAccountForm(WebRequest requestFromUser){
 
-        if(Objects.equals(requestFromUser.getParameter("password"), requestFromUser.getParameter("confirmPassword"))){
+        if(userService.samePassword(requestFromUser)){
             if(userService.submitAccountDetails(requestFromUser)) {
                 return "redirect:/";
             }
