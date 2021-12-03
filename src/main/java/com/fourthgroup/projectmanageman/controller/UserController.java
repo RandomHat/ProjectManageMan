@@ -31,9 +31,9 @@ public class UserController {
                 requestFromUser.getParameter("email"),
                 requestFromUser.getParameter("username"),
                 requestFromUser.getParameter("password"));
-            return "redirect:/Create_account";
+            return "redirect:/Create-account";
         } else {
-            return "redirect:/Create_account";
+            return "redirect:/Create-account";
         }
 
     }
