@@ -3,6 +3,7 @@ package com.fourthgroup.projectmanageman.controller;
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.service.UserProjectRoleService;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,6 +13,7 @@ import com.fourthgroup.projectmanageman.service.ProjectService;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /*
     ===============================
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpSession;
     ===============================
  */
 
+@Controller
 public class ProjectController {
 
     private ProjectService projectService = new ProjectService();
@@ -45,7 +48,15 @@ public class ProjectController {
         return "project-create-success";
     }
 
-    @GetMapping("project/{projectId}")
+    @GetMapping("/show-all-projects")
+    public String showAllProjects (Model model){
+        List<Project> projectList = projectService.getAllProjects();
+        model.addAttribute("projectList", projectList);
+
+        return "ShowAllProjects";
+    }
+
+    @GetMapping("/project/{projectId}")
     public String showProjectById (@PathVariable int projectId, Model model){
         Project project = projectService.getProjectById(projectId);
 
@@ -54,7 +65,7 @@ public class ProjectController {
         return "single-project";
     }
 
-    @PostMapping("project/{projectId}/assign-manager")
+    @PostMapping("/project/{projectId}/assign-manager")
     public String assignProjectManager (@PathVariable int projectId, User user){
         Project project = projectService.getProjectById(projectId);
 
@@ -63,7 +74,7 @@ public class ProjectController {
         return "assign-manager";
     }
 
-    @PostMapping("project/{projectId}/assign-participant")
+    @PostMapping("/project/{projectId}/assign-participant")
     public String assignProjectParticipant (@PathVariable int projectId, User user){
         Project project = projectService.getProjectById(projectId);
 

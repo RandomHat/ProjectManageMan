@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ProjectService {
@@ -23,6 +24,10 @@ public class ProjectService {
 
     public Project getProjectById (int id){
         return projectRepo.getProjectById(id);
+    }
+
+    public List<Project> getAllProjects (){
+        return projectRepo.getAllProjects();
     }
 
     public Project saveProjectForm (WebRequest projectForm){
