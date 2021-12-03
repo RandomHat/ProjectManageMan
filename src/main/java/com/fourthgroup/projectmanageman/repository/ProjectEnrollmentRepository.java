@@ -25,13 +25,10 @@ public class ProjectEnrollmentRepository {
     ConnectionPool connectionPool;
     List<Project> projectList;
     List<User> userList;
+    List<Role> roleList;
 
-    public int assignUserToProject(User user, Project project, Role role) {
+    public int assignUserToProject(UserProjectRole userProjectRole) {
         PreparedStatement pstmt = null;
-        int userId = user.getId();
-        int projectId = project.getId();
-        int roleId = 5; //Manger = 5, participant = 15;
-        UserProjectRole userProjectRole = new UserProjectRole(userId, projectId, roleId);
 
         try {
             pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO project_enrollment (person_id, project_id, role_id) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
