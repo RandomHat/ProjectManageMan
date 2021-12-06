@@ -8,8 +8,8 @@ package com.fourthgroup.projectmanageman.model;
 public class User {
 
     private int id;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String phonenumber;
     private String email;
     private String username;
@@ -20,10 +20,20 @@ public class User {
     public User() {
     }
 
-    public User(int id, String firstname, String lastname, String phonenumber, String email, String username, String password) {
+    public User(int id, String firstName, String lastName, String phonenumber, String email, String username, String password, boolean isAdmin) {
         this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phonenumber = phonenumber;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
+
+    public User(String firstName, String lastName, String phonenumber, String email, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phonenumber = phonenumber;
         this.email = email;
         this.username = username;
@@ -39,20 +49,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhonenumber() {
@@ -102,8 +112,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", phonenumber='" + phonenumber + '\'' +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +

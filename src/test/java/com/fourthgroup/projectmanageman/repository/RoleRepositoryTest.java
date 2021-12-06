@@ -24,20 +24,25 @@ class RoleRepositoryTest {
     void getRole() {
         ConnectionPool connectionPool;
         try {
-            connectionPool = MySQLConnectionPool.create(System.getenv("DB_JAWS"));
+            connectionPool = MySQLConnectionPool.create(System.getenv("JAWS_DB"));
             RoleRepository roleRepository = new RoleRepository();
             roleRepository.setConnectionPool(connectionPool);
             //arrange
-            String roleName = "Project participant";
+            String roleName = "Project Participant";
+            String roleNameTwo = "Project";
             Role role;
+            Role wrongRole;
 
             //Act
 
             role = roleRepository.getRole(roleName);
+            wrongRole = roleRepository.getRole(roleNameTwo);
 
             //Assert
 
             assertTrue(role.getRoleName().equals(roleName));
+            assertTrue(wrongRole.getRoleName() == null);
+
         } catch (SQLException e){System.out.println("something went wrong in DB: " + e);}
         catch (URISyntaxException e) {System.out.println("URI syntax failed: " + e);}
     }
