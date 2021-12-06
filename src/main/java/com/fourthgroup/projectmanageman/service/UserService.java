@@ -2,6 +2,8 @@ package com.fourthgroup.projectmanageman.service;
 
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.Objects;
@@ -12,9 +14,11 @@ import java.util.Objects;
     Date: Nov 3, 2021
     ===============================
  */
+@Component
 public class UserService {
 
-    UserRepository userRepository = new UserRepository();
+    @Autowired
+    UserRepository userRepository;
 
     public boolean writeUser(User user){
         return userRepository.writeUser(user);
@@ -23,8 +27,8 @@ public class UserService {
 
     public boolean submitAccountDetails(WebRequest requestFromUser) {
             User currentUser = new User(
-                    requestFromUser.getParameter("firstname"),
-                    requestFromUser.getParameter("lastname"),
+                    requestFromUser.getParameter("firstName"),
+                    requestFromUser.getParameter("lastName"),
                     requestFromUser.getParameter("phonenumber"),
                     requestFromUser.getParameter("email"),
                     requestFromUser.getParameter("username"),

@@ -23,6 +23,12 @@ import java.util.List;
 public class UserRepository {
 
     ConnectionPool connectionPool;
+
+    @Autowired
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     public List<User> getAllUsers() {
         Connection connection = connectionPool.getConnection();
         List<User> listOfUsers = new ArrayList<>();
@@ -54,28 +60,27 @@ public class UserRepository {
     public boolean writeUser(User user) {
         Connection connection = connectionPool.getConnection();
         PreparedStatement pstmt = null;
-
+        boolean isCreated = true;
         try {
-            pstmt = connection.prepareStatement("INSERT INTO USERS (firstname,lastname,phonenumber,email,username,password) VALUES(?,?,?,?,?,?)");
+            pstmt = connection.prepareStatement("INSERT INTO USERS (firstname,lastname,phonenumber,email,username,password,is_admin) VALUES(?,?,?,?,?,?,?)");
             pstmt.setString(1, user.getFirstName());
             pstmt.setString(2, user.getLastName());
             pstmt.setString(3, user.getPhonenumber());
             pstmt.setString(4, user.getEmail());
             pstmt.setString(5, user.getUsername());
             pstmt.setString(6, user.getPassword());
+            pstmt.setBoolean(7,user.isAdmin());
 
-            return pstmt.execute();
+            pstmt.execute();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
+            isCreated = false;
         } finally {
             connectionPool.releaseConnection(connection);
         }
+        return isCreated;
     }
 
-    @Autowired
-    public void setConnectionPool(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
-    }
+
 }

@@ -2,6 +2,7 @@ package com.fourthgroup.projectmanageman.controller;
 
 
 import com.fourthgroup.projectmanageman.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,12 @@ import java.util.Objects;
 @Controller
 public class UserController {
 
-    UserService userService = new UserService();
+    UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService){
+        this.userService = userService;
+    }
 
     @GetMapping("/create-account")
     public String createAccountView(HttpSession session){
@@ -36,4 +42,5 @@ public class UserController {
         }
         return "redirect:/WrongAccountInfo";
     }
+
 }

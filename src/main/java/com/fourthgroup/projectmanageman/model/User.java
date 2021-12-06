@@ -20,7 +20,7 @@ public class User {
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String phonenumber, String email, String username, String password) {
+    public User(int id, String firstName, String lastName, String phonenumber, String email, String username, String password, boolean isAdmin) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,7 +28,7 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
-        this.isAdmin = false;
+        this.isAdmin = isAdmin;
     }
 
     public User(String firstName, String lastName, String phonenumber, String email, String username, String password) {
