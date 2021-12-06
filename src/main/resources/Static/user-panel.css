@@ -1,0 +1,18 @@
+.overview{
+    border: 2px solid darkgrey;
+    border-radius: 20px;
+    text-align:center;
+}
+#mid{
+    margin-left:2px;
+    margin-right:2px;
+}
+
+.list-btn{
+    height: 50%;
+    width:80%;
+}
+
+.margin-top-outerbox{
+    margin-top: 25px;
+}

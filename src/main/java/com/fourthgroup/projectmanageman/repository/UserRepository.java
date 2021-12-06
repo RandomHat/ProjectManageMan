@@ -1,5 +1,7 @@
 package com.fourthgroup.projectmanageman.repository;
 
+import com.fourthgroup.projectmanageman.model.Project;
+import com.fourthgroup.projectmanageman.model.Status;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.utility.ConnectionPool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,8 +49,9 @@ public class UserRepository {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
         }
-        connectionPool.releaseConnection(connection);
         return listOfUsers;
     }
 
@@ -94,12 +98,13 @@ public class UserRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connectionPool.releaseConnection(connection);
         }
         return currentUser;
     }
 
     private User getUser(ResultSet resultSet) throws SQLException {
-        Connection connection = connectionPool.getConnection();
 
         User currentUser = new User();
         currentUser.setId(resultSet.getInt("user_id"));
@@ -113,4 +118,39 @@ public class UserRepository {
         return currentUser;
     }
 
+     public List<Project> userProjectList(int userID) {
+        Connection connection = connectionPool.getConnection();
+        PreparedStatement pstmt = null;
+        List<Project> userProjects = new ArrayList<>();
+
+        try {
+            pstmt = connection.prepareStatement("SELECT p.* from project_enrollments " +
+                    "JOIN projects p ON project_enrollments.project_id = p.project_id " +
+                    "where user_id = ?");
+            pstmt.setInt(1,userID);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while(resultSet.next()){
+                Project currentProject = new Project();
+                currentProject.setId(resultSet.getInt("project_id"));
+                currentProject.setParentProjectID(resultSet.getInt("parent_project_id"));
+                currentProject.setTitle(resultSet.getString("title"));
+                currentProject.setStatus(Status.fromInteger(resultSet.getInt("status")));
+                currentProject.setDescription(resultSet.getString("description"));
+                currentProject.setClient(resultSet.getString("client"));
+                currentProject.setStartDate(LocalDate.parse(resultSet.getString("startdate")));
+                currentProject.setDeadline(LocalDate.parse(resultSet.getString("deadline")));
+                currentProject.setEstTimeHours(resultSet.getInt("est_time_hours"));
+                currentProject.setSpentTimeHours(resultSet.getInt("spent_hours"));
+
+                userProjects.add(currentProject);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            connectionPool.releaseConnection(connection);
+        }
+        return userProjects;
+     }
 }
