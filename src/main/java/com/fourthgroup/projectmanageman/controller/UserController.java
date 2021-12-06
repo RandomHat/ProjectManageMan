@@ -43,4 +43,25 @@ public class UserController {
         return "redirect:/WrongAccountInfo";
     }
 
+    @GetMapping("/")
+    public String loginView(HttpSession session){
+        return "Login";
+    }
+
+    @PostMapping("/Login")
+    public String loginForm(WebRequest requestFromUser, HttpSession session){
+        int userID = userService.loginApproved(requestFromUser);
+        if(0 < userID){
+            session.setAttribute("User",userService.approvedUser(userID));
+            return "redirect:/user-panel";
+        }
+        return "redirect:/";
+
+
+    }
+
+
+
+
+
 }
