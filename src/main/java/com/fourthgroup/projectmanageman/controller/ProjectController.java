@@ -15,6 +15,7 @@ import com.fourthgroup.projectmanageman.service.ProjectService;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -71,11 +72,15 @@ public class ProjectController {
 
     @GetMapping("/project/{projectId}")
     public String showProjectById (@PathVariable int projectId, Model model){
-        Project project = projectService.getProjectById(projectId);
+        //Project project = projectService.getProjectById(projectId);
+        //model.addAttribute("project", project);
+        //return "show-single-project";
 
-        model.addAttribute("project", project);
+        List<Project> projectList = new ArrayList<>();
+        projectList.add(projectService.getProjectById(projectId));
+        model.addAttribute("projectList", projectList);
 
-        return "single-project";
+        return "ShowAllProjects";
     }
 
     @PostMapping("/project/{projectId}/assign-manager")

@@ -37,7 +37,7 @@ public class ProjectEnrollmentRepository {
             pstmt.setInt(2, userProjectRole.getProjectId());
             pstmt.setInt(3, userProjectRole.getRoleId());
 
-            return pstmt.executeUpdate(); //Returns key for inserted row"
+            return pstmt.executeUpdate(); //Returns 1 if inserted row
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

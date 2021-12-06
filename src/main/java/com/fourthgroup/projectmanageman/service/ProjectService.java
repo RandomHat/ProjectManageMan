@@ -47,7 +47,6 @@ public class ProjectService {
 
 
     public int writeNewProject (Project project){
-        Project newProject = new Project();
         int projectID = 0;
 
         projectID = projectRepo.writeNewProjectComplete(project);
