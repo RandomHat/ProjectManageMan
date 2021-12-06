@@ -26,4 +26,8 @@ public class RepositoryDemo {
         connectionPool.releaseConnection(conn);
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> DBConnection
 }
