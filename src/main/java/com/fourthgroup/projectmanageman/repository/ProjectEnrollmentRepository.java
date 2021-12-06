@@ -32,7 +32,7 @@ public class ProjectEnrollmentRepository {
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO project_enrollment (person_id, project_id, role_id) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO project_enrollment (user_id, project_id, role_id) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, userProjectRole.getPersonId());
             pstmt.setInt(2, userProjectRole.getProjectId());
             pstmt.setInt(3, userProjectRole.getRoleId());

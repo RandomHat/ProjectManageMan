@@ -40,23 +40,25 @@ public class ProjectController {
     }
 
 
-    @GetMapping("/create/create-project")
+    @GetMapping("/create-project")
     public String createProjectGet(HttpSession session){
-        //Create project form
-        return "create-project";
+        return "CreateProject";
     }
 
-    @PostMapping("/create/create-project") // Send form
-    public String createProjectPost(WebRequest projectForm, HttpSession session){
-        //projectService.parseInputDate("YYYY-MM-DD"); //Parse inputdate string fra form (model- eller service-lag?)
+    @PostMapping("/create-project")
+    public String createProjectForm(WebRequest projectForm){
 
-
+        //             |Kald writeNewProject (Project) |Indeholder det parsede webrequest, nu som Project
         int projectID = projectService.writeNewProject(projectService.saveProjectForm(projectForm));
 
-        //ProjectID = 0 hvis query fejler
-        //Check id og pipe videre
+        System.out.println("Created project with ID" + projectID); // debug :)
 
-        return "project-create-success";
+        if (projectID > 0){
+            System.out.println(projectService.getProjectById(projectID).toString());
+            return "redirect:/show-all-projects";
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping("/show-all-projects")
