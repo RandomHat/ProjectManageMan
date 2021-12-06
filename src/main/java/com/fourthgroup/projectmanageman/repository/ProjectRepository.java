@@ -4,6 +4,7 @@ import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.Role;
 import com.fourthgroup.projectmanageman.model.Status;
 import com.fourthgroup.projectmanageman.utility.ConnectionPool;
+import com.fourthgroup.projectmanageman.utility.MySQLConnectionPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,12 @@ import java.util.List;
 
 @Component
 public class ProjectRepository {
-    //@Autowired
+
+    @Autowired
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     ConnectionPool connectionPool;
     List<Project> projectList;
 
@@ -36,6 +42,7 @@ public class ProjectRepository {
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
+                project.setId(resultSet.getInt("project_id"));
                 project.setParentProjectID(resultSet.getInt("parent_project_id"));
                 project.setTitle(resultSet.getString("title"));
                 project.setStatus(Status.fromInteger(resultSet.getInt("status")));
@@ -65,6 +72,7 @@ public class ProjectRepository {
 
             while (resultSet.next()) {
                 Project currentProject = new Project();
+                currentProject.setId(resultSet.getInt("project_id"));
                 currentProject.setParentProjectID(resultSet.getInt("parent_project_id"));
                 currentProject.setTitle(resultSet.getString("title"));
                 currentProject.setStatus(Status.fromInteger(resultSet.getInt("status")));
@@ -99,7 +107,18 @@ public class ProjectRepository {
             pstmt.setInt(8, project.getSpentTimeHours()); // ----
             pstmt.setString(9, project.getDescription());
 
-            return pstmt.executeUpdate(); //Returns project_id key for inserted project akin to "SELECT LAST_INSERT_ID()"
+            int affectedRows = pstmt.executeUpdate(); //Returns project_id key for inserted project akin to "SELECT LAST_INSERT_ID()"
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+            try (ResultSet keys = pstmt.getGeneratedKeys()) {
+                if (keys.next()) {
+                    affectedRows = keys.getInt(1);
+                }
+                return affectedRows;
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -107,8 +126,5 @@ public class ProjectRepository {
         }
     }
 
-    @Autowired
-    public void setConnectionPool(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
-    }
+
 }

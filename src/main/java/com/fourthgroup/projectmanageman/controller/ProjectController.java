@@ -3,6 +3,8 @@ package com.fourthgroup.projectmanageman.controller;
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.service.UserProjectRoleService;
+import com.fourthgroup.projectmanageman.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import com.fourthgroup.projectmanageman.service.ProjectService;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -25,27 +28,38 @@ import java.util.List;
 @Controller
 public class ProjectController {
 
-    private ProjectService projectService = new ProjectService();
-    private UserProjectRoleService userProjectRoleService = new UserProjectRoleService();
+    ProjectService projectService;
+    UserProjectRoleService userProjectRoleService;
 
-
-    @GetMapping("/create/create-project")
-    public String createProjectGet(HttpSession session){
-        //Create project form
-        return "create-project";
+    @Autowired
+    public void setProjectService(ProjectService projectService){
+        this.projectService = projectService;
+    }
+    @Autowired
+    public void setUserProjectRoleService(UserProjectRoleService userProjectRoleService){
+        this.userProjectRoleService = userProjectRoleService;
     }
 
-    @PostMapping("/create/create-project") // Send form
-    public String createProjectPost(WebRequest projectForm, HttpSession session){
-        //projectService.parseInputDate("YYYY-MM-DD"); //Parse inputdate string fra form (model- eller service-lag?)
 
+    @GetMapping("/create-project")
+    public String createProjectGet(HttpSession session){
+        return "CreateProject";
+    }
 
+    @PostMapping("/create-project")
+    public String createProjectForm(WebRequest projectForm){
+
+        //             |Kald writeNewProject (Project) |Indeholder det parsede webrequest, nu som Project
         int projectID = projectService.writeNewProject(projectService.saveProjectForm(projectForm));
 
-        //ProjectID = 0 hvis query fejler
-        //Check id og pipe videre
+        System.out.println("Created project with ID" + projectID); // debug :)
 
-        return "project-create-success";
+        if (projectID > 0){
+            System.out.println(projectService.getProjectById(projectID).toString());
+            return "redirect:/show-all-projects";
+        }
+
+        return "redirect:/";
     }
 
     @GetMapping("/show-all-projects")
@@ -58,11 +72,15 @@ public class ProjectController {
 
     @GetMapping("/project/{projectId}")
     public String showProjectById (@PathVariable int projectId, Model model){
-        Project project = projectService.getProjectById(projectId);
+        //Project project = projectService.getProjectById(projectId);
+        //model.addAttribute("project", project);
+        //return "show-single-project";
 
-        model.addAttribute("project", project);
+        List<Project> projectList = new ArrayList<>();
+        projectList.add(projectService.getProjectById(projectId));
+        model.addAttribute("projectList", projectList);
 
-        return "single-project";
+        return "ShowAllProjects";
     }
 
     @PostMapping("/project/{projectId}/assign-manager")

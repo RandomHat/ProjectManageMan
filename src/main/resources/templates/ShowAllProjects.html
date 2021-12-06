@@ -13,6 +13,7 @@
         <th>Project Title</th>
         <th>Project Start date</th>
         <th>Project deadline</th>
+        <th>Project Client</th>
         <th>Project description</th>
     </tr>
     <tr th:each="project : ${projectList}">
@@ -20,6 +21,7 @@
         <td th:text="${project.getTitle}"></td>
         <td th:text="${project.getStartDate}"></td>
         <td th:text="${project.getDeadline}"></td>
+        <td th:text="${project.getClient}"></td>
         <td th:text="${project.getDescription}"></td>
     </tr>
 </table>

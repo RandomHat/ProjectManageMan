@@ -8,8 +8,10 @@ package com.fourthgroup.projectmanageman.service;
  */
 
 import com.fourthgroup.projectmanageman.model.Project;
+import com.fourthgroup.projectmanageman.model.Status;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.repository.ProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 
@@ -20,6 +22,7 @@ import java.util.List;
 @Service
 public class ProjectService {
 
+    @Autowired
     private final ProjectRepository projectRepo = new ProjectRepository();
 
     public Project getProjectById (int id){
@@ -32,16 +35,18 @@ public class ProjectService {
 
     public Project saveProjectForm (WebRequest projectForm){
         Project project = new Project();
-        project.setTitle(projectForm.getParameter("projectname"));
-        project.setDescription(projectForm.getParameter("projectdescription"));
+        project.setTitle(projectForm.getParameter("projecttitle"));
+        project.setStartDate(parseInputDate(projectForm.getParameter("startdate")));
         project.setDeadline(parseInputDate(projectForm.getParameter("deadline")));
-
+        project.setClient(projectForm.getParameter("projectclient"));
+        project.setDescription(projectForm.getParameter("projectdescription"));
+        project.setParentProjectID(111); //How to self reference?
+        project.setStatus(Status.PENDING);
         return project;
     }
 
 
     public int writeNewProject (Project project){
-        Project newProject = new Project();
         int projectID = 0;
 
         projectID = projectRepo.writeNewProjectComplete(project);
