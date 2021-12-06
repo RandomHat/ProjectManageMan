@@ -1,6 +1,7 @@
 package com.fourthgroup.projectmanageman.controller;
 
 
+import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,18 +51,12 @@ public class UserController {
 
     @PostMapping("/Login")
     public String loginForm(WebRequest requestFromUser, HttpSession session){
-        int userID = userService.loginApproved(requestFromUser);
-        if(0 < userID){
-            session.setAttribute("User",userService.approvedUser(userID));
+        User user = userService.loginApproved(requestFromUser);
+        if(0 < user.getId()){
+            session.setAttribute("User",user);
             return "redirect:/user-panel";
         }
         return "redirect:/";
-
-
     }
-
-
-
-
 
 }

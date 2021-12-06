@@ -33,14 +33,14 @@ public class UserRepository {
         Connection connection = connectionPool.getConnection();
         List<User> listOfUsers = new ArrayList<>();
         PreparedStatement pstmt = null;
-        User currentUser = new User();
+        User currentUser;
 
         try {
             pstmt = connection.prepareStatement("SELECT * FROM USERS");
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
-                currentUser = getUser(currentUser, resultSet);
+                currentUser = getUser(resultSet);
                 listOfUsers.add(currentUser);
             }
 
@@ -84,10 +84,12 @@ public class UserRepository {
 
         try{
             pstmt = connection.prepareStatement("SELECT * from users where username = ? and password = ?");
+            pstmt.setString(1,username);
+            pstmt.setString(2,password);
             ResultSet resultSet = pstmt.executeQuery();
 
             while(resultSet.next()){
-                currentUser = getUser(currentUser, resultSet);
+                currentUser = getUser(resultSet);
             }
 
         } catch (SQLException e) {
@@ -96,7 +98,10 @@ public class UserRepository {
         return currentUser;
     }
 
-    private User getUser(User currentUser, ResultSet resultSet) throws SQLException {
+    private User getUser(ResultSet resultSet) throws SQLException {
+        Connection connection = connectionPool.getConnection();
+
+        User currentUser = new User();
         currentUser.setId(resultSet.getInt("person_id"));
         currentUser.setFirstName(resultSet.getString("firstname"));
         currentUser.setLastName(resultSet.getString("lastname"));
