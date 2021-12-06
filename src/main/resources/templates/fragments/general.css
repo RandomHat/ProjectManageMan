@@ -1,4 +1,7 @@
-.nav {
-    background-color: aqua;
-    padding: 2% 2% 2% 2%;
+a {
+    text-decoration: none;
+}
+
+.nav-item {
+    margin: auto 0;
 }
