@@ -4,6 +4,7 @@ import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.Role;
 import com.fourthgroup.projectmanageman.model.Status;
 import com.fourthgroup.projectmanageman.utility.ConnectionPool;
+import com.fourthgroup.projectmanageman.utility.MySQLConnectionPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,12 @@ import java.util.List;
 
 @Component
 public class ProjectRepository {
-    //@Autowired
+
+    @Autowired
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     ConnectionPool connectionPool;
     List<Project> projectList;
 
@@ -36,6 +42,7 @@ public class ProjectRepository {
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
+                project.setId(resultSet.getInt("project_id"));
                 project.setParentProjectID(resultSet.getInt("parent_project_id"));
                 project.setTitle(resultSet.getString("title"));
                 project.setStatus(Status.fromInteger(resultSet.getInt("status")));
@@ -65,6 +72,7 @@ public class ProjectRepository {
 
             while (resultSet.next()) {
                 Project currentProject = new Project();
+                currentProject.setId(resultSet.getInt("project_id"));
                 currentProject.setParentProjectID(resultSet.getInt("parent_project_id"));
                 currentProject.setTitle(resultSet.getString("title"));
                 currentProject.setStatus(Status.fromInteger(resultSet.getInt("status")));
@@ -107,8 +115,5 @@ public class ProjectRepository {
         }
     }
 
-    @Autowired
-    public void setConnectionPool(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
-    }
+
 }
