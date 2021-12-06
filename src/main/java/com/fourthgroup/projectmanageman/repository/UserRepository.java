@@ -102,7 +102,7 @@ public class UserRepository {
         Connection connection = connectionPool.getConnection();
 
         User currentUser = new User();
-        currentUser.setId(resultSet.getInt("person_id"));
+        currentUser.setId(resultSet.getInt("user_id"));
         currentUser.setFirstName(resultSet.getString("firstname"));
         currentUser.setLastName(resultSet.getString("lastname"));
         currentUser.setPhonenumber(resultSet.getString("phonenumber"));

@@ -53,7 +53,7 @@ public class UserController {
     public String loginForm(WebRequest requestFromUser, HttpSession session){
         User user = userService.loginApproved(requestFromUser);
         if(0 < user.getId()){
-            session.setAttribute("User",user);
+            session.setAttribute("user",user);
             return "redirect:/user-panel";
         }
         return "redirect:/";
