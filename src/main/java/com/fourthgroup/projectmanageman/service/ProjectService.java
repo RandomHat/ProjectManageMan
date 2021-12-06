@@ -1,17 +1,43 @@
 package com.fourthgroup.projectmanageman.service;
 
-// Fred
+/*
+    ===============================
+    Author: Frederik Wandall von Benzon
+    Date: Nov 27, 2021
+    ===============================
+ */
 
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.repository.ProjectRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.WebRequest;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.List;
 
+@Service
 public class ProjectService {
 
-    ProjectRepository projectRepo = new ProjectRepository();
+    private final ProjectRepository projectRepo = new ProjectRepository();
+
+    public Project getProjectById (int id){
+        return projectRepo.getProjectById(id);
+    }
+
+    public List<Project> getAllProjects (){
+        return projectRepo.getAllProjects();
+    }
+
+    public Project saveProjectForm (WebRequest projectForm){
+        Project project = new Project();
+        project.setTitle(projectForm.getParameter("projectname"));
+        project.setDescription(projectForm.getParameter("projectdescription"));
+        project.setDeadline(parseInputDate(projectForm.getParameter("deadline")));
+
+        return project;
+    }
 
 
     public int writeNewProject (Project project){
