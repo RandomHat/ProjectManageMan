@@ -3,6 +3,8 @@ package com.fourthgroup.projectmanageman.controller;
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.service.UserProjectRoleService;
+import com.fourthgroup.projectmanageman.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +27,17 @@ import java.util.List;
 @Controller
 public class ProjectController {
 
-    private ProjectService projectService = new ProjectService();
-    private UserProjectRoleService userProjectRoleService = new UserProjectRoleService();
+    ProjectService projectService;
+    UserProjectRoleService userProjectRoleService;
+
+    @Autowired
+    public void setProjectService(ProjectService projectService){
+        this.projectService = projectService;
+    }
+    @Autowired
+    public void setUserProjectRoleService(UserProjectRoleService userProjectRoleService){
+        this.userProjectRoleService = userProjectRoleService;
+    }
 
 
     @GetMapping("/create/create-project")

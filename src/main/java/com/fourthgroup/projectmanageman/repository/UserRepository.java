@@ -33,20 +33,14 @@ public class UserRepository {
         Connection connection = connectionPool.getConnection();
         List<User> listOfUsers = new ArrayList<>();
         PreparedStatement pstmt = null;
+        User currentUser;
 
         try {
             pstmt = connection.prepareStatement("SELECT * FROM USERS");
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
-                User currentUser = new User();
-                currentUser.setId(resultSet.getInt("person_id"));
-                currentUser.setFirstName(resultSet.getString("firstname"));
-                currentUser.setLastName(resultSet.getString("lastname"));
-                currentUser.setPhonenumber(resultSet.getString("phonenumber"));
-                currentUser.setEmail(resultSet.getString("email"));
-                currentUser.setUsername(resultSet.getString("username"));
-                currentUser.setPassword(resultSet.getString("password"));
+                currentUser = getUser(resultSet);
                 listOfUsers.add(currentUser);
             }
 
@@ -82,5 +76,41 @@ public class UserRepository {
         return isCreated;
     }
 
+
+    public User userLogin(String username, String password) {
+        Connection connection = connectionPool.getConnection();
+        PreparedStatement pstmt = null;
+        User currentUser = new User();
+
+        try{
+            pstmt = connection.prepareStatement("SELECT * from users where username = ? and password = ?");
+            pstmt.setString(1,username);
+            pstmt.setString(2,password);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while(resultSet.next()){
+                currentUser = getUser(resultSet);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return currentUser;
+    }
+
+    private User getUser(ResultSet resultSet) throws SQLException {
+        Connection connection = connectionPool.getConnection();
+
+        User currentUser = new User();
+        currentUser.setId(resultSet.getInt("user_id"));
+        currentUser.setFirstName(resultSet.getString("firstname"));
+        currentUser.setLastName(resultSet.getString("lastname"));
+        currentUser.setPhonenumber(resultSet.getString("phonenumber"));
+        currentUser.setEmail(resultSet.getString("email"));
+        currentUser.setUsername(resultSet.getString("username"));
+        currentUser.setPassword(resultSet.getString("password"));
+
+        return currentUser;
+    }
 
 }

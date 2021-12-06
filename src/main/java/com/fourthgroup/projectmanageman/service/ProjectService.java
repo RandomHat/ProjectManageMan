@@ -10,6 +10,7 @@ package com.fourthgroup.projectmanageman.service;
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.repository.ProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @Service
 public class ProjectService {
 
+    @Autowired
     private final ProjectRepository projectRepo = new ProjectRepository();
 
     public Project getProjectById (int id){

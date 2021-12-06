@@ -42,4 +42,16 @@ public class UserService {
     }
 
 
+    public User loginApproved(WebRequest requestFromUser) {
+        String username = requestFromUser.getParameter("username");
+        String password = requestFromUser.getParameter("password");
+        User user = userRepository.userLogin(username,password);
+        if(Objects.equals(username, user.getUsername()) && Objects.equals(password, user.getPassword())){
+            return user;
+        } else {
+            user.setId(-1);
+            return user;
+        }
+
+    }
 }

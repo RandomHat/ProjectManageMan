@@ -1,6 +1,7 @@
 package com.fourthgroup.projectmanageman.controller;
 
 
+import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,21 @@ public class UserController {
             }
         }
         return "redirect:/WrongAccountInfo";
+    }
+
+    @GetMapping("/")
+    public String loginView(HttpSession session){
+        return "Login";
+    }
+
+    @PostMapping("/Login")
+    public String loginForm(WebRequest requestFromUser, HttpSession session){
+        User user = userService.loginApproved(requestFromUser);
+        if(0 < user.getId()){
+            session.setAttribute("user",user);
+            return "redirect:/user-panel";
+        }
+        return "redirect:/";
     }
 
 }
