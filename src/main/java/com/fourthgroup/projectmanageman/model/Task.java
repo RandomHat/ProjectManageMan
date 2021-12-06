@@ -46,11 +46,11 @@ public class Task {
         this.id = id;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getParentTaskID() {
+    public Integer getParentTaskID() {
         return parentTaskID;
     }
 
@@ -74,11 +74,11 @@ public class Task {
         return assignedUsers;
     }
 
-    public int getEstTime() {
+    public Integer getEstTime() {
         return estTime;
     }
 
-    public int getSpentTime() {
+    public Integer getSpentTime() {
         return spentTime;
     }
 
