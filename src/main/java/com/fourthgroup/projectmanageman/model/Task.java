@@ -46,6 +46,8 @@ public class Task {
         this.id = id;
     }
 
+    public Task(){};
+
     public Integer getId() {
         return id;
     }
@@ -92,6 +94,50 @@ public class Task {
 
     public Status getStatus() {
         return status;
+    }
+
+    public void setParentTaskID(int parentTaskID) {
+        this.parentTaskID = parentTaskID;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public void setAssignedUsers(Set<Assignment> assignedUsers) {
+        this.assignedUsers = assignedUsers;
+    }
+
+    public void setEstTime(int estTime) {
+        this.estTime = estTime;
+    }
+
+    public void setSpentTime(int spentTime) {
+        this.spentTime = spentTime;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
