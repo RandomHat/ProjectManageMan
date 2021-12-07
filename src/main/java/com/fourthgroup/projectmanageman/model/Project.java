@@ -61,6 +61,10 @@ public class Project {
                 '}';
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
@@ -111,10 +115,6 @@ public class Project {
 
     public int getStatusAsInt() {
         return status.ordinal();
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setParentProjectID(int parentProjectID) {
