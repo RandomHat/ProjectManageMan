@@ -83,6 +83,18 @@ public class ProjectController {
         return "ShowAllProjects";
     }
 
+    @GetMapping("/project/user/{userId}")
+    public String showProjectByUserId (@PathVariable int userId, Model model){
+        //Project project = projectService.getProjectById(projectId);
+        //model.addAttribute("project", project);
+        //return "show-single-project";
+
+        List<Project> projectList = projectService.getProjectsByUserId(userId);
+        model.addAttribute("projectList", projectList);
+
+        return "ShowAllProjects";
+    }
+
     @PostMapping("/project/{projectId}/assign-manager")
     public String assignProjectManager (@PathVariable int projectId, User user){
         Project project = projectService.getProjectById(projectId);

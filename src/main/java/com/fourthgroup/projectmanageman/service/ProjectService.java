@@ -29,6 +29,10 @@ public class ProjectService {
         return projectRepo.getProjectById(id);
     }
 
+    public List<Project> getProjectsByUserId (int id){
+        return projectRepo.getProjectsByUserId(id);
+    }
+
     public List<Project> getAllProjects (){
         return projectRepo.getAllProjects();
     }
