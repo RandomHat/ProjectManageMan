@@ -1,7 +1,9 @@
 package com.fourthgroup.projectmanageman.controller;
 
 
+import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
+import com.fourthgroup.projectmanageman.service.ChartService;
 import com.fourthgroup.projectmanageman.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /*
     ===============================
@@ -22,7 +25,12 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     UserService userService;
+    ChartService chartService;
 
+    @Autowired
+    public void setChartService(ChartService chartService){
+        this.chartService = chartService;
+    }
     @Autowired
     public void setUserService(UserService userService){
         this.userService = userService;
@@ -61,10 +69,12 @@ public class UserController {
 
     @GetMapping("/user-panel")
     public String userPanelView(HttpSession session, Model model){
-        model.addAttribute("projects",userService.userProjectList(session));
+        List<Project> userProjectlist = userService.userProjectList(session);
+        model.addAttribute("projects",userProjectlist);
         model.addAttribute("tasks",userService.userTaskList(session));
         model.addAttribute("user",session.getAttribute("user"));
-        //model.addAttribute("deadlineList",userService.userDeadlineList(session));
+        model.addAttribute("projectChart",chartService.projectChart(userProjectlist));
+
         return "/user-panel";
     }
 
