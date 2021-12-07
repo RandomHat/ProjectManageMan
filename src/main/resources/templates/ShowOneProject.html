@@ -11,6 +11,8 @@
 </head>
 <body>
 
+<a th:href="'/show-all-projects'"  th:text="'Show all projects'"></a>
+
 <h4>Project</h4>
 
 <table class="project">
@@ -37,11 +39,13 @@
 <table class="user">
     <tr>
         <th>Project ID</th>
+        <th>User ID</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Project Role</th>
     <tr th:each="assignedProjectUser : ${assignedProjectUserList}">
         <td th:text="${assignedProjectUser.getProjectId}"></td>
+        <td> <a th:href="'/project/user/' + ${assignedProjectUser.getUserId}"  th:text="${assignedProjectUser.getUserId} + ' [Projects]'"></a> </td>
         <td th:text="${assignedProjectUser.getFirstName}"></td>
         <td th:text="${assignedProjectUser.getLastName}"></td>
         <td th:text="${assignedProjectUser.getRoleName}"></td>

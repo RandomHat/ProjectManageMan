@@ -11,6 +11,8 @@
 </head>
 <body>
 
+<header th:replace="fragments/general :: header"></header>
+
 <table class="project">
     <tr>
         <th>Project ID</th>
@@ -21,7 +23,7 @@
         <th>Project description</th>
     </tr>
     <tr th:each="project : ${projectList}">
-        <td th:text="${project.getId}"></td>
+        <td> <a th:href="'/project/' + ${project.getId}"  th:text="${project.getId}"></a> </td>
         <td th:text="${project.getTitle}"></td>
         <td th:text="${project.getStartDate}"></td>
         <td th:text="${project.getDeadline}"></td>

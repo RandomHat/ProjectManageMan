@@ -45,6 +45,7 @@ public class ProjectEnrollmentRepository {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            connectionPool.releaseConnection(connection);
             return 0;
         }
     }
@@ -55,13 +56,14 @@ public class ProjectEnrollmentRepository {
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = connection.prepareStatement("SELECT p.project_id, u.firstname, u.lastname, r.name from project_enrollments p LEFT JOIN users u ON u.user_id = p.user_id LEFT JOIN roles r on p.role_id = r.role_id WHERE p.project_id = ?;");
+            pstmt = connection.prepareStatement("SELECT p.project_id, u.user_id, u.firstname, u.lastname, r.name from project_enrollments p LEFT JOIN users u ON u.user_id = p.user_id LEFT JOIN roles r on p.role_id = r.role_id WHERE p.project_id = ?;");
             pstmt.setInt(1, projectId);
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
                 AssignedProjectUsers assigned = new AssignedProjectUsers();
                 assigned.setProjectId(resultSet.getInt("project_id"));
+                assigned.setUserId(resultSet.getInt("user_id"));
                 assigned.setFirstName(resultSet.getString("firstname"));
                 assigned.setLastName(resultSet.getString("lastname"));
                 assigned.setRoleName(resultSet.getString("name"));

@@ -60,7 +60,7 @@ public class ProjectController {
             return "redirect:/show-all-projects";
         }
 
-        return "redirect:/";
+        return "redirect:/user-panel";
     }
 
     @GetMapping("/show-all-projects")
@@ -116,5 +116,4 @@ public class ProjectController {
         int a = userProjectRoleService.assignParticipantToProject(user, project);
         return "assign-participant";
     }
-
 }

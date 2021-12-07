@@ -128,10 +128,11 @@ public class ProjectRepository {
     }
 
     public int writeNewProjectComplete(Project project) {
+        Connection connection = connectionPool.getConnection();
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO projects (parent_project_id, status, title, startdate, client, deadline, est_time_hours, spent_hours, description) VALUES(?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            pstmt = connection.prepareStatement("INSERT INTO projects (parent_project_id, status, title, startdate, client, deadline, est_time_hours, spent_hours, description) VALUES(?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, project.getParentProjectID());
             pstmt.setInt(2, project.getStatusAsInt());
             pstmt.setString(3, project.getTitle());
@@ -152,11 +153,13 @@ public class ProjectRepository {
                 if (keys.next()) {
                     affectedRows = keys.getInt(1);
                 }
+                connectionPool.releaseConnection(connection);
                 return affectedRows;
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            connectionPool.releaseConnection(connection);
             return 0;
         }
     }
