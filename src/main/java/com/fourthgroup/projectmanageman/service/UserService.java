@@ -1,6 +1,7 @@
 package com.fourthgroup.projectmanageman.service;
 
 import com.fourthgroup.projectmanageman.model.Project;
+import com.fourthgroup.projectmanageman.model.Task;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +59,13 @@ public class UserService {
 
     }
 
-    public List<Project> projectList(HttpSession session) {
+    public List<Project> userProjectList(HttpSession session) {
        User user = (User) session.getAttribute("user");
        return userRepository.userProjectList(user.getId());
+    }
+
+    public List<Task> userTaskList(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return userRepository.userTaskList(user.getId());
     }
 }

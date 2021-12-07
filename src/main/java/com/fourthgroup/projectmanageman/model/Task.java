@@ -1,5 +1,7 @@
 package com.fourthgroup.projectmanageman.model;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -13,6 +15,7 @@ import java.util.Set;
 public class Task {
 
     private final int id;
+    private int projectID;
     private int parentTaskID;
     private String title;
     private String type;
@@ -21,14 +24,14 @@ public class Task {
     private Set<Assignment> assignedUsers;
     private int estTime;
     private int spentTime;
-    private LocalDateTime startDate;
-    private LocalDateTime deadline;
+    private LocalDate startDate;
+    private LocalDate deadline;
     Status status;
 
     public Task(int id, int pID, String title, String type,
                 String desc, String pdesc, Set<Assignment> assignments,
-                int estTime, int spentTime, LocalDateTime startDate,
-                LocalDateTime deadline, Status status) {
+                int estTime, int spentTime, LocalDate startDate,
+                LocalDate deadline, Status status) {
         this.id = id;
         this.parentTaskID = pID;
         this.title = title;
@@ -44,6 +47,20 @@ public class Task {
     }
     public Task(int id){
         this.id = id;
+    }
+
+    public Task(int taskID, int projectID, int parentTaskID, String title, String description, String productDescription, int estTime, int spentTime, LocalDate startDate, LocalDate deadline, Status status) {
+        this.id = taskID;
+        this.projectID = projectID;
+        this.parentTaskID = parentTaskID;
+        this.title = title;
+        this.description = description;
+        this.productDescription = productDescription;
+        this.estTime = estTime;
+        this.spentTime = spentTime;
+        this.startDate = startDate;
+        this.deadline = deadline;
+        this.status = status;
     }
 
     public int getId() {
@@ -82,16 +99,24 @@ public class Task {
         return spentTime;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public LocalDateTime getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
     public Status getStatus() {
         return status;
+    }
+
+    public int getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
     }
 
     @Override

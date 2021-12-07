@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Objects;
 
 /*
     ===============================
@@ -62,7 +61,9 @@ public class UserController {
 
     @GetMapping("/user-panel")
     public String userPanelView(HttpSession session, Model model){
-        model.addAttribute("projects",userService.projectList(session));
+        model.addAttribute("projects",userService.userProjectList(session));
+        model.addAttribute("tasks",userService.userTaskList(session));
+        //model.addAttribute("deadlineList",userService.userDeadlineList(session));
         return "/user-panel";
     }
 
