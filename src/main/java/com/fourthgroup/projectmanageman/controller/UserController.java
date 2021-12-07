@@ -63,6 +63,7 @@ public class UserController {
     public String userPanelView(HttpSession session, Model model){
         model.addAttribute("projects",userService.userProjectList(session));
         model.addAttribute("tasks",userService.userTaskList(session));
+        model.addAttribute("user",session.getAttribute("user"));
         //model.addAttribute("deadlineList",userService.userDeadlineList(session));
         return "/user-panel";
     }

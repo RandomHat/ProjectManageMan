@@ -115,6 +115,7 @@ public class UserRepository {
         currentUser.setEmail(resultSet.getString("email"));
         currentUser.setUsername(resultSet.getString("username"));
         currentUser.setPassword(resultSet.getString("password"));
+        currentUser.setAdmin(resultSet.getBoolean("is_admin"));
 
         return currentUser;
     }
