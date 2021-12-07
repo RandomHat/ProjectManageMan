@@ -15,8 +15,8 @@
 <header th:replace="fragments/general :: header"></header>
 
 <div class="d-flex container-fluid">
-    <div class="d-flex col-2">
-    <div class="justify-content-center align-content-center row">
+    <div class="d-flex col-2 align-items-start mt-5">
+    <div class="d-flex justify-content-center row">
         <div class="col-6 p-1">
             <a href="Login.html">
                 <button class="btn btn-lg btn-primary btn-block signup-btn col-12"> My Projects </button>
@@ -36,73 +36,75 @@
         </div>
     </div>
 </div>
-    <div class="row col-10">
+    <div class="col">
+        <div class="row col-10">
 
-    <div class="d-flex col mt5">
-        <div class="round-border col-5 m-4 box-shadow">
-            <h3>Projects</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr class="d-flex">
-                        <th class="col-1" scope="col">#</th>
-                        <th class="col-4" scope="col"> Title </th>
-                        <th class="col-2" scope="col"> Est. time </th>
-                        <th class="col-2" scope="col"> Time spent </th>
-                        <th class="col-2" scope="col"> Deadline </th>
-                        <th class="col-1" scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:if="${projects.empty}">
-                        <td colspan="2">No Projects Available</td>
-                    </tr>
-                    <tr class="d-flex" th:each="project, iter : ${projects}">
-                        <td class="align col-1" th:text="${iter.index} + 1"></td>
-                        <td class="align col-4" th:text="${project.title}"></td>
-                        <td class="align col-2"><span th:text="${project.estTimeHours}"></span></td>
-                        <td class="align col-2"><span th:text="${project.spentTimeHours}"></span></td>
-                        <td class="align col-2"><span th:text="${#temporals.format(project.deadline, 'dd-MMM-yyyy')}"></span></td>
-                        <td class="align col-1"><a th:text="'#' + ${project.id} "class="btn-sm btn-primary" role="button" th:href="'/project/' + ${project.id}"></a></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="d-flex col mt5">
+                <div class="round-border col-5 m-4 box-shadow">
+                    <h3>Projects</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="d-flex">
+                                <th class="col-1" scope="col">#</th>
+                                <th class="col-4" scope="col"> Title </th>
+                                <th class="col-2" scope="col"> Est. time </th>
+                                <th class="col-2" scope="col"> Time spent </th>
+                                <th class="col-2" scope="col"> Deadline </th>
+                                <th class="col-1" scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${projects.empty}">
+                                <td colspan="2">No Projects Available</td>
+                            </tr>
+                            <tr class="d-flex" th:each="project, iter : ${projects}">
+                                <td class="align col-1" th:text="${iter.index} + 1"></td>
+                                <td class="align col-4" th:text="${project.title}"></td>
+                                <td class="align col-2"><span th:text="${project.estTimeHours}"></span></td>
+                                <td class="align col-2"><span th:text="${project.spentTimeHours}"></span></td>
+                                <td class="align col-2"><span th:text="${#temporals.format(project.deadline, 'dd-MMM-yyyy')}"></span></td>
+                                <td class="align col-1"><a th:text="'#' + ${project.id} "class="btn-sm btn-primary" role="button" th:href="'/project/' + ${project.id}"></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="round-border col-5 m-4 box-shadow">
+                    <h3>My Assignments</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">project</th>
+                                <th scope="col"> Title </th>
+                                <th scope="col"> Est. time </th>
+                                <th scope="col"> Time spent </th>
+                                <th scope="col"> Deadline </th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${tasks.empty}">
+                                <td colspan="7">no Tasks assigned to you</td>
+                            </tr>
+                            <tr th:each="task, iter : ${tasks}">
+                                <td th:text="${iter.index} + 1"></td>
+                                <td th:text="'#' + ${task.projectID}"></td>
+                                <td th:text="${task.title}"></td>
+                                <td><span th:text="${task.estTime}"></span></td>
+                                <td><span th:text="${task.spentTime}"></span></td>
+                                <td><span th:text="${#temporals.format(task.deadline, 'dd-MMM-yyyy')}"></span></td>
+                                <td><a class="btn-sm btn-primary" role="button" th:href="'/Task/' + ${task.id}"> project</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
         </div>
-
-        <div class="round-border col-5 m-4 box-shadow">
-            <h3>My Assignments</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">project</th>
-                        <th scope="col"> Title </th>
-                        <th scope="col"> Est. time </th>
-                        <th scope="col"> Time spent </th>
-                        <th scope="col"> Deadline </th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:if="${tasks.empty}">
-                        <td colspan="7">no Tasks assigned to you</td>
-                    </tr>
-                    <tr th:each="task, iter : ${tasks}">
-                        <td th:text="${iter.index} + 1"></td>
-                        <td th:text="'#' + ${task.projectID}"></td>
-                        <td th:text="${task.title}"></td>
-                        <td><span th:text="${task.estTime}"></span></td>
-                        <td><span th:text="${task.spentTime}"></span></td>
-                        <td><span th:text="${#temporals.format(task.deadline, 'dd-MMM-yyyy')}"></span></td>
-                        <td><a class="btn-sm btn-primary" role="button" th:href="'/Task/' + ${task.id}"> project</a></td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-    </div>
-    <div class="row">
-        <div th:replace="fragments/ganttChartUserPanel::chartProjectBody (projectChart)">
+        <div class="row">
+            <div th:replace="fragments/ganttChartUserPanel::chartProjectBody (projectChart) ">
+            </div>
         </div>
     </div>
 </div>
