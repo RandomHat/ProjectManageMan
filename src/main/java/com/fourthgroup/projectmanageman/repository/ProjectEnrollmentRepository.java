@@ -19,20 +19,28 @@ import java.util.List;
 
 @Component
 public class ProjectEnrollmentRepository {
+
+    @Autowired
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     ConnectionPool connectionPool;
     List<Project> projectList;
     List<User> userList;
     List<Role> roleList;
 
     public int assignUserToProject(UserProjectRole userProjectRole) {
+        Connection connection = connectionPool.getConnection();
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = connectionPool.getConnection().prepareStatement("INSERT INTO project_enrollment (user_id, project_id, role_id) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            pstmt = connection.prepareStatement("INSERT INTO project_enrollment (user_id, project_id, role_id) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, userProjectRole.getUserId());
             pstmt.setInt(2, userProjectRole.getProjectId());
             pstmt.setInt(3, userProjectRole.getRoleId());
 
+            connectionPool.releaseConnection(connection);
             return pstmt.executeUpdate(); //Returns 1 if inserted row
 
         } catch (SQLException e) {
@@ -42,11 +50,12 @@ public class ProjectEnrollmentRepository {
     }
 
     public List<AssignedProjectUsers> getUsersAssignedToProject(int projectId) {
+        Connection connection = connectionPool.getConnection();
         List<AssignedProjectUsers> listOfEnrollments = new ArrayList<>();
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = connectionPool.getConnection().prepareStatement("SELECT p.project_id, u.firstname, u.lastname, r.name from project_enrollments p LEFT JOIN users u ON u.user_id = p.user_id LEFT JOIN roles r on p.role_id = r.role_id WHERE p.project_id = ?;");
+            pstmt = connection.prepareStatement("SELECT p.project_id, u.firstname, u.lastname, r.name from project_enrollments p LEFT JOIN users u ON u.user_id = p.user_id LEFT JOIN roles r on p.role_id = r.role_id WHERE p.project_id = ?;");
             pstmt.setInt(1, projectId);
             ResultSet resultSet = pstmt.executeQuery();
 
@@ -63,15 +72,17 @@ public class ProjectEnrollmentRepository {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        connectionPool.releaseConnection(connection);
         return listOfEnrollments;
     }
 
     public List<UserProjectRole> getAllEnrollments() {
+        Connection connection = connectionPool.getConnection();
         List<UserProjectRole> listOfEnrollments = new ArrayList<>();
         PreparedStatement pstmt = null;
 
         try {
-            pstmt = connectionPool.getConnection().prepareStatement("SELECT * FROM project_enrollments");
+            pstmt = connection.prepareStatement("SELECT * FROM project_enrollments");
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
@@ -87,6 +98,7 @@ public class ProjectEnrollmentRepository {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        connectionPool.releaseConnection(connection);
         return listOfEnrollments;
     }
 
@@ -123,8 +135,4 @@ public class ProjectEnrollmentRepository {
         return listOfProjects;
     }
 
-    @Autowired
-    public void setConnectionPool(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
-    }
 }

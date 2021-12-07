@@ -4,6 +4,7 @@ import com.fourthgroup.projectmanageman.model.*;
 import com.fourthgroup.projectmanageman.repository.ProjectEnrollmentRepository;
 import com.fourthgroup.projectmanageman.repository.ProjectRepository;
 import com.fourthgroup.projectmanageman.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @Service
 public class UserProjectRoleService {
 
+    @Autowired
     private final ProjectEnrollmentRepository projectEnrollmentRepository = new ProjectEnrollmentRepository();
     private final RoleRepository roleRepository = new RoleRepository();
 
