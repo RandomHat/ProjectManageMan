@@ -3,15 +3,30 @@
 <head>
     <title>Fragments</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="general.css" rel="stylesheet">
+    <style th:fragment="style">
+        a {
+            text-decoration: none;
+        }
+
+        .cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            overflow: hidden;
+        }
+
+        .nav-item {
+            margin: auto 0;
+        }
+    </style>
     <meta charset="UTF-8">
 </head>
 <body>
 
-<header th:fragment="header" class="container" >
+<header th:fragment="header" class="container-fluid" >
     <ul class="nav row bg-light">
         <li class="nav-item col">
-            <a href="/" ><img class="cover" src="../static/deadlineLogo_LowRes_transparent.png" alt="" width="102" height="125"></a>
+            <a href="/" ><img class="cover" src="Attachments/deadlineLogo_LowRes_transparent.png" alt="" width="102" height="125"></a>
         </li>
         <li class="nav-item nav-link col">
             <a href="/project">Project</a>
@@ -22,16 +37,16 @@
         <li class="col-7"></li>
         <li class="nav-item col">
             <div class="btn-group">
-                <a class="btn btn-primary" th:href="${session.containsKey('user')} ? '/logout' : '/login'" th:text="${session.containsKey('user')} ? 'Sign in' : 'Sign out'"></a>
+                <a class="btn btn-primary" th:href="${session.containsKey('user')} ? '/login' : '/logout'" th:text="${session.containsKey('user')} ? 'Sing out' : 'Sign in'"></a>
             </div>
         </li>
     </ul>
 </header>
 
-<footer th:fragment="footer" class="container">
+<footer th:fragment="footer" class="container-fluid">
     <div class="row bg-light">
         <div class="col">
-            <img class="cover" src="../static/deadlineLogo_HighRes_transparent.png" alt="" width="230" height="280">
+            <img class="cover" src="Attachments/deadlineLogo_HighRes_transparent.png" alt="" width="230" height="280">
         </div>
         <div class="col">
             <h3>Dat21v2 Kea 2021</h3><br>
