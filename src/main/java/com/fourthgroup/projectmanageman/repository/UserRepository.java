@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -23,24 +24,23 @@ public class UserRepository {
 
     ConnectionPool connectionPool;
 
+    @Autowired
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     public List<User> getAllUsers() {
         Connection connection = connectionPool.getConnection();
         List<User> listOfUsers = new ArrayList<>();
         PreparedStatement pstmt = null;
+        User currentUser;
 
         try {
             pstmt = connection.prepareStatement("SELECT * FROM USERS");
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
-                User currentUser = new User();
-                currentUser.setId(resultSet.getInt("person_id"));
-                currentUser.setFirstname(resultSet.getString("firstname"));
-                currentUser.setLastname(resultSet.getString("lastname"));
-                currentUser.setPhonenumber(resultSet.getString("phonenumber"));
-                currentUser.setEmail(resultSet.getString("email"));
-                currentUser.setUsername(resultSet.getString("username"));
-                currentUser.setPassword(resultSet.getString("password"));
+                currentUser = getUser(resultSet);
                 listOfUsers.add(currentUser);
             }
 
@@ -54,28 +54,63 @@ public class UserRepository {
     public boolean writeUser(User user) {
         Connection connection = connectionPool.getConnection();
         PreparedStatement pstmt = null;
-
+        boolean isCreated = true;
         try {
-            pstmt = connection.prepareStatement("INSERT INTO USERS (firstname,lastname,phonenumber,email,username,password) VALUS(?,?,?,?,?,?)");
-            pstmt.setString(1, user.getFirstname());
-            pstmt.setString(2, user.getLastname());
+            pstmt = connection.prepareStatement("INSERT INTO USERS (firstname,lastname,phonenumber,email,username,password,is_admin) VALUES(?,?,?,?,?,?,?)");
+            pstmt.setString(1, user.getFirstName());
+            pstmt.setString(2, user.getLastName());
             pstmt.setString(3, user.getPhonenumber());
             pstmt.setString(4, user.getEmail());
             pstmt.setString(5, user.getUsername());
             pstmt.setString(6, user.getPassword());
+            pstmt.setBoolean(7,user.isAdmin());
 
-            return pstmt.execute();
+            pstmt.execute();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
+            isCreated = false;
         } finally {
             connectionPool.releaseConnection(connection);
         }
+        return isCreated;
     }
 
-    @Autowired
-    public void setConnectionPool(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+
+    public User userLogin(String username, String password) {
+        Connection connection = connectionPool.getConnection();
+        PreparedStatement pstmt = null;
+        User currentUser = new User();
+
+        try{
+            pstmt = connection.prepareStatement("SELECT * from users where username = ? and password = ?");
+            pstmt.setString(1,username);
+            pstmt.setString(2,password);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while(resultSet.next()){
+                currentUser = getUser(resultSet);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return currentUser;
     }
+
+    private User getUser(ResultSet resultSet) throws SQLException {
+        Connection connection = connectionPool.getConnection();
+
+        User currentUser = new User();
+        currentUser.setId(resultSet.getInt("user_id"));
+        currentUser.setFirstName(resultSet.getString("firstname"));
+        currentUser.setLastName(resultSet.getString("lastname"));
+        currentUser.setPhonenumber(resultSet.getString("phonenumber"));
+        currentUser.setEmail(resultSet.getString("email"));
+        currentUser.setUsername(resultSet.getString("username"));
+        currentUser.setPassword(resultSet.getString("password"));
+
+        return currentUser;
+    }
+
 }

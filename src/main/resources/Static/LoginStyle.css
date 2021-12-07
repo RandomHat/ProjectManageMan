@@ -1,0 +1,15 @@
+.background{
+    width:100%;
+    height: 100%;
+    background-image: url("Attachments/preview_COLOURBOX32897713.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:center;
+}
+
+.wrapper{
+   background-color: lightgrey;
+    border-radius: 4px
+}
+
+.form-background
