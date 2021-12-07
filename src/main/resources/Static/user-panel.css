@@ -1,4 +1,7 @@
+.sidemenu > a{
+    max-width:250px;
 
+}
 .list-btn{
     height: 50%;
     width:80%;
