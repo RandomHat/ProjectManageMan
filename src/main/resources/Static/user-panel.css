@@ -3,10 +3,6 @@
     border-radius: 20px;
     text-align:center;
 }
-#mid{
-    margin-left:2px;
-    margin-right:2px;
-}
 
 .list-btn{
     height: 50%;
@@ -15,4 +11,8 @@
 
 .margin-top-outerbox{
     margin-top: 25px;
+}
+
+.box-shadow{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
