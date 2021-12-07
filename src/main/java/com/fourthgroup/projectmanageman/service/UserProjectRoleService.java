@@ -1,13 +1,13 @@
 package com.fourthgroup.projectmanageman.service;
 
-import com.fourthgroup.projectmanageman.model.Project;
-import com.fourthgroup.projectmanageman.model.Role;
-import com.fourthgroup.projectmanageman.model.User;
-import com.fourthgroup.projectmanageman.model.UserProjectRole;
+import com.fourthgroup.projectmanageman.model.*;
 import com.fourthgroup.projectmanageman.repository.ProjectEnrollmentRepository;
 import com.fourthgroup.projectmanageman.repository.ProjectRepository;
 import com.fourthgroup.projectmanageman.repository.RoleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import java.util.List;
 
 /*
     ===============================
@@ -21,6 +21,11 @@ public class UserProjectRoleService {
 
     private final ProjectEnrollmentRepository projectEnrollmentRepository = new ProjectEnrollmentRepository();
     private final RoleRepository roleRepository = new RoleRepository();
+
+    public List<AssignedProjectUsers> getUsersAssignedToProject (int projectId) {
+        //Evt del op i flere repository calls, i stedet for 3 joins :P
+        return projectEnrollmentRepository.getUsersAssignedToProject(projectId);
+    }
 
     public int assignUserToProject (User user, Project project, int roleId){
         int userId = user.getId();

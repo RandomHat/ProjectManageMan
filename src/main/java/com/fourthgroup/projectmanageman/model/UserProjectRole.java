@@ -11,13 +11,16 @@ package com.fourthgroup.projectmanageman.model;
 public class UserProjectRole {
     private int id;
     private int roleId;
-    private int personId;
+    private int userId;
     private int projectId;
 
     public UserProjectRole(int roleId, int personId, int projectId) {
         this.roleId = roleId;
-        this.personId = personId;
+        this.userId = personId;
         this.projectId = projectId;
+    }
+
+    public UserProjectRole() {
     }
 
     @Override
@@ -25,7 +28,7 @@ public class UserProjectRole {
         return "UserProjectRole{" +
                 "id=" + id +
                 ", roleId=" + roleId +
-                ", personId=" + personId +
+                ", personId=" + userId +
                 ", projectId=" + projectId +
                 '}';
     }
@@ -38,26 +41,24 @@ public class UserProjectRole {
         return roleId;
     }
 
-    public int getPersonId() {
-        return personId;
+    public int getUserId() {
+        return userId;
     }
 
     public int getProjectId() {
         return projectId;
     }
 
-    /*
     public void setId(int id) {
         this.id = id;
     }
-    */
 
     public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
 
-    public void setPersonId(int personId) {
-        this.personId = personId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public void setProjectId(int projectId) {
