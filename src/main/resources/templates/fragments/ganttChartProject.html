@@ -2,32 +2,35 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title> fragment</title>
+    <!-- thymeleaf fragment which require a variable (taskChart) -->
     <th:block th:fragment="chartProjectHead (projectChart)">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" th:inline="javascript">
         google.charts.load('current', {'packages':['bar']});
         google.charts.setOnLoadCallback(drawProjectChart);
-
+        //function name needs to be changed for every chart on same HTML
         function drawProjectChart() {
-
+            //Thymeleaf variable used for data table
             var data = google.visualization.arrayToDataTable(/*[[${projectChart}]]*/);
             console.log(data)
 
             var options = {
                 chart: {
+                    //Diagram title & subtitle
                     title: 'ProjectTime',
                     subtitle: 'Est. time on Projects',
                 },
                 bars: 'horizontal' // Required for Material Bar Charts.
             };
-
-            var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+            //chart input needs to be the same as <body> Line 33 id
+            var chart = new google.charts.Bar(document.getElementById('project_material'));
             chart.draw(data, google.charts.Bar.convertOptions(options));
         }
     </script>
     </th:block>
 </head>
 <body>
-<div th:fragment="chartProjectBody" id="barchart_material" style="width: 600px; height: 400px;"></div>
+<!-- id has to match with Line 28 input !!-->
+<div th:fragment="chartProjectBody" id="project_material" style="width: 600px; height: 400px;"></div>
 </body>
 </html>

@@ -98,10 +98,13 @@
                     <div th:if="${projects.size()> 0}">
                         <div  th:replace="fragments/ganttChartProject::chartProjectBody"></div>
                     </div>
+                </div>
+                <div class="col-6 m-4">
                     <div th:if="${tasks.size() > 0}">
                         <div th:replace="fragments/ganttChartTask :: chartTaskBody"></div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
