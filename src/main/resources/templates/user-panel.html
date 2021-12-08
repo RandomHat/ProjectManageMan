@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="/accountStyle.css">
     <link rel="stylesheet" href="/user-panel.css">
     <link th:replace="fragments/general::style">
-    <link th:replace="fragments/ganttChartUserPanel::chartProjectHead (${projectChart})">
+    <link th:replace="fragments/ganttChartProject::chartProjectHead (${projectChart})">
+    <link th:replace="fragments/ganttChartTask::chartTaskHead (${taskChart})">
 
 </head>
 <body>
@@ -93,11 +94,14 @@
                 </div>
             </div>
             <div class="row">
-                    <div class="col-6 m-4">
-                        <div th:replace="fragments/ganttChartUserPanel::chartProjectBody (projectChart) "></div>
+                <div class="col-6 m-4">
+                    <div th:if="${projects.size()> 0}">
+                        <div  th:replace="fragments/ganttChartProject::chartProjectBody"></div>
                     </div>
-                    <div class="col-6">
+                    <div th:if="${tasks.size() > 0}">
+                        <div th:replace="fragments/ganttChartTask :: chartTaskBody"></div>
                     </div>
+                </div>
             </div>
         </div>
     </div>

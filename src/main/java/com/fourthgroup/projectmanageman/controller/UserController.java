@@ -2,6 +2,7 @@ package com.fourthgroup.projectmanageman.controller;
 
 
 import com.fourthgroup.projectmanageman.model.Project;
+import com.fourthgroup.projectmanageman.model.Task;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.service.ChartService;
 import com.fourthgroup.projectmanageman.service.UserService;
@@ -70,10 +71,12 @@ public class UserController {
     @GetMapping("/user-panel")
     public String userPanelView(HttpSession session, Model model){
         List<Project> userProjectlist = userService.userProjectList(session);
+        List<Task> userTaskList = userService.userTaskList(session);
         model.addAttribute("projects",userProjectlist);
-        model.addAttribute("tasks",userService.userTaskList(session));
+        model.addAttribute("tasks",userTaskList);
         model.addAttribute("user",session.getAttribute("user"));
         model.addAttribute("projectChart",chartService.projectChart(userProjectlist));
+        model.addAttribute("taskChart",chartService.taskChart(userTaskList));
 
         return "/user-panel";
     }
