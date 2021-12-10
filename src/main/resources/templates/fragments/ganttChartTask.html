@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+    ===============================
+    Author: Mark Kaplan Hansen
+    Date: Dec 10, 2021
+    ===============================
+
+    Source: https://developers.google.com/chart/interactive/docs/gallery/barchart?hl=da#creating-material-bar-charts
+ -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title> fragment</title>
+    <!-- thymeleaf fragment which require a variable (taskChart) -->
+    <th:block th:fragment="chartTaskHead (taskChart)">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" th:inline="javascript">
+            google.charts.load('current', {'packages':['bar']});
+            google.charts.setOnLoadCallback(drawTaskChart);
+
+            //function name needs to be changed for every chart on same HTML
+            function drawTaskChart() {
+
+                //Thymeleaf variable used for data table
+                var data = google.visualization.arrayToDataTable(/*[[${taskChart}]]*/);
+                console.log(data)
+
+                var options = {
+                    chart: {
+                        //Diagram title & subtitle
+                        title: 'TaskTime',
+                        subtitle: 'Est. time on Tasks',
+                    },
+                    bars: 'horizontal'
+                };
+                //chart input needs to be the same as <body> Line 33 id
+                var chart = new google.charts.Bar(document.getElementById('task_material'));
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+            }
+        </script>
+    </th:block>
+</head>
+<body>
+<!-- id has to match with Line 28 input !!-->
+<div th:fragment="chartTaskBody" id="task_material" style="width: 600px; height: 400px;"></div>
+</body>
+</html>

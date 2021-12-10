@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ManageMan managing many minute modules</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        table, th, td {border: 1px solid black; border-collapse: collapse;}
+        th, td, h4 {padding: 8px;}
+    </style>
+</head>
+<body>
+
+<a th:href="'/show-all-projects'"  th:text="'Show all projects'"></a>
+
+<h4>Project</h4>
+
+<table class="project">
+    <tr>
+        <th>Project ID</th>
+        <th>Project Title</th>
+        <th>Project Start date</th>
+        <th>Project deadline</th>
+        <th>Project Client</th>
+        <th>Project description</th>
+    </tr>
+    <tr th:each="project : ${projectList}">
+        <td th:text="${project.getId}"></td>
+        <td th:text="${project.getTitle}"></td>
+        <td th:text="${project.getStartDate}"></td>
+        <td th:text="${project.getDeadline}"></td>
+        <td th:text="${project.getClient}"></td>
+        <td th:text="${project.getDescription}"></td>
+    </tr>
+</table>
+
+<h4>Assigned Users</h4>
+
+<table class="user">
+    <tr>
+        <th>Project ID</th>
+        <th>User ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Project Role</th>
+    <tr th:each="assignedProjectUser : ${assignedProjectUserList}">
+        <td th:text="${assignedProjectUser.getProjectId}"></td>
+        <td> <a th:href="'/project/user/' + ${assignedProjectUser.getUserId}"  th:text="${assignedProjectUser.getUserId} + ' [Projects]'"></a> </td>
+        <td th:text="${assignedProjectUser.getFirstName}"></td>
+        <td th:text="${assignedProjectUser.getLastName}"></td>
+        <td th:text="${assignedProjectUser.getRoleName}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

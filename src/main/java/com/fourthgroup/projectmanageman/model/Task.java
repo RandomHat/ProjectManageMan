@@ -12,7 +12,7 @@ import java.sql.Date;
 
 public class Task {
 
-    private final int taskID;
+    private int taskID;
     private int projectID;
     private int parentTaskID;
     private String title;

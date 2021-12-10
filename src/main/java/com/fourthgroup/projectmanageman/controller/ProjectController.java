@@ -1,5 +1,6 @@
 package com.fourthgroup.projectmanageman.controller;
 
+import com.fourthgroup.projectmanageman.model.AssignedProjectUsers;
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.service.UserProjectRoleService;
@@ -59,7 +60,7 @@ public class ProjectController {
             return "redirect:/show-all-projects";
         }
 
-        return "redirect:/";
+        return "redirect:/user-panel";
     }
 
     @GetMapping("/show-all-projects")
@@ -77,7 +78,23 @@ public class ProjectController {
         //return "show-single-project";
 
         List<Project> projectList = new ArrayList<>();
+        List<AssignedProjectUsers> assignedProjectUsersList = userProjectRoleService.getUsersAssignedToProject(projectId);
+
         projectList.add(projectService.getProjectById(projectId));
+
+        model.addAttribute("projectList", projectList);
+        model.addAttribute("assignedProjectUserList", assignedProjectUsersList);
+
+        return "ShowOneProject";
+    }
+
+    @GetMapping("/project/user/{userId}")
+    public String showProjectByUserId (@PathVariable int userId, Model model){
+        //Project project = projectService.getProjectById(projectId);
+        //model.addAttribute("project", project);
+        //return "show-single-project";
+
+        List<Project> projectList = projectService.getProjectsByUserId(userId);
         model.addAttribute("projectList", projectList);
 
         return "ShowAllProjects";
@@ -99,5 +116,4 @@ public class ProjectController {
         int a = userProjectRoleService.assignParticipantToProject(user, project);
         return "assign-participant";
     }
-
 }

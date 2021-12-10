@@ -1,7 +1,10 @@
 package com.fourthgroup.projectmanageman.controller;
 
 
+import com.fourthgroup.projectmanageman.model.Project;
+import com.fourthgroup.projectmanageman.model.Task;
 import com.fourthgroup.projectmanageman.model.User;
+import com.fourthgroup.projectmanageman.service.ChartService;
 import com.fourthgroup.projectmanageman.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,12 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Objects;
+import java.util.List;
 
 /*
     ===============================
     Author: Mark Kaplan Hansen
-    Date: Nov 3, 2021
+    Date: Dec 3, 2021
     ===============================
  */
 
@@ -23,7 +26,12 @@ import java.util.Objects;
 public class UserController {
 
     UserService userService;
+    ChartService chartService;
 
+    @Autowired
+    public void setChartService(ChartService chartService){
+        this.chartService = chartService;
+    }
     @Autowired
     public void setUserService(UserService userService){
         this.userService = userService;
@@ -62,7 +70,14 @@ public class UserController {
 
     @GetMapping("/user-panel")
     public String userPanelView(HttpSession session, Model model){
-        model.addAttribute("projects",userService.projectList(session));
+        List<Project> userProjectlist = userService.userProjectList(session);
+        List<Task> userTaskList = userService.userTaskList(session);
+        model.addAttribute("projects",userProjectlist);
+        model.addAttribute("tasks",userTaskList);
+        model.addAttribute("user",session.getAttribute("user"));
+        model.addAttribute("projectChart",chartService.projectChart(userProjectlist));
+        model.addAttribute("taskChart",chartService.taskChart(userTaskList));
+
         return "/user-panel";
     }
 
