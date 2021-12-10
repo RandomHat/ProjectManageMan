@@ -2,14 +2,15 @@ package com.fourthgroup.projectmanageman.service;
 
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.Task;
-import com.fourthgroup.projectmanageman.repository.ProjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
+
+/*
+    ===============================
+    Author: Mark Kaplan Hansen
+    Date: Dec 10, 2021
+    ===============================
+ */
 
 @Component
 public class ChartService {
