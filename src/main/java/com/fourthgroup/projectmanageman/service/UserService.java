@@ -1,11 +1,14 @@
 package com.fourthgroup.projectmanageman.service;
 
+import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Objects;
 
 /*
@@ -53,5 +56,10 @@ public class UserService {
             return user;
         }
 
+    }
+
+    public List<Project> projectList(HttpSession session) {
+       User user = (User) session.getAttribute("user");
+       return userRepository.userProjectList(user.getId());
     }
 }

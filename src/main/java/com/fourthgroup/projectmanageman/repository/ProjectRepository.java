@@ -107,7 +107,18 @@ public class ProjectRepository {
             pstmt.setInt(8, project.getSpentTimeHours()); // ----
             pstmt.setString(9, project.getDescription());
 
-            return pstmt.executeUpdate(); //Returns project_id key for inserted project akin to "SELECT LAST_INSERT_ID()"
+            int affectedRows = pstmt.executeUpdate(); //Returns project_id key for inserted project akin to "SELECT LAST_INSERT_ID()"
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+            try (ResultSet keys = pstmt.getGeneratedKeys()) {
+                if (keys.next()) {
+                    affectedRows = keys.getInt(1);
+                }
+                return affectedRows;
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

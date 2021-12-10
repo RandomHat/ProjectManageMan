@@ -5,6 +5,7 @@ import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
@@ -57,6 +58,12 @@ public class UserController {
             return "redirect:/user-panel";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/user-panel")
+    public String userPanelView(HttpSession session, Model model){
+        model.addAttribute("projects",userService.projectList(session));
+        return "/user-panel";
     }
 
 }
