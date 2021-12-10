@@ -17,7 +17,7 @@ public class TaskService {
         return task;
     }
 
-                           @Autowired
+    @Autowired
     public void setRepository(TaskRepository repository){
         this.repository = repository;
     }

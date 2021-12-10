@@ -1,7 +1,7 @@
 package com.fourthgroup.projectmanageman.model;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.time.LocalDate;
+import java.sql.Date;
 
 /*
     ===============================
@@ -12,44 +12,48 @@ import java.util.Set;
 
 public class Task {
 
-    private final int id;
+    private final int taskID;
+    private int projectID;
     private int parentTaskID;
     private String title;
     private String type;
     private String description;
     private String productDescription;
-    private Set<Assignment> assignedUsers;
     private int estTime;
     private int spentTime;
-    private LocalDateTime startDate;
-    private LocalDateTime deadline;
+    private LocalDate startDate;
+    private LocalDate deadline;
     Status status;
 
-    public Task(int id, int pID, String title, String type,
-                String desc, String pdesc, Set<Assignment> assignments,
-                int estTime, int spentTime, LocalDateTime startDate,
-                LocalDateTime deadline, Status status) {
-        this.id = id;
-        this.parentTaskID = pID;
+    public Task(int taskID, int projectID, int parentTaskID, String title, String type,
+                String desc, String pdesc, int estTime,
+                int spentTime, LocalDate startDate,
+                LocalDate deadline, Status status) {
+        this.taskID = taskID;
+        this.projectID = projectID;
+        this.parentTaskID = parentTaskID;
         this.title = title;
         this.type = type;
         this.description = desc;
         this.productDescription = pdesc;
-        this.assignedUsers = assignments;
         this.estTime = estTime;
         this.spentTime = spentTime;
         this.startDate = startDate;
         this.deadline = deadline;
         this.status = status;
     }
-    public Task(int id){
-        this.id = id;
+    public Task(int taskID){
+        this.taskID = taskID;
     }
 
     public Task(){};
 
-    public Integer getId() {
-        return id;
+    public Integer getTaskID() {
+        return taskID;
+    }
+
+    public Integer getProjectID(){
+        return projectID;
     }
 
     public Integer getParentTaskID() {
@@ -72,10 +76,6 @@ public class Task {
         return productDescription;
     }
 
-    public Set<Assignment> getAssignedUsers() {
-        return assignedUsers;
-    }
-
     public Integer getEstTime() {
         return estTime;
     }
@@ -84,16 +84,28 @@ public class Task {
         return spentTime;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public LocalDateTime getDeadline() {
+    public Date getStartDateSQL(){
+        return Date.valueOf(String.valueOf(this.startDate));
+    }
+
+    public LocalDate getDeadline() {
         return deadline;
+    }
+
+    public Date getDeadlineSQL(){
+        return Date.valueOf(String.valueOf(this.deadline));
     }
 
     public Status getStatus() {
         return status;
+    }
+
+    public void setProjectID(int projectID){
+        this.projectID = projectID;
     }
 
     public void setParentTaskID(int parentTaskID) {
@@ -116,10 +128,6 @@ public class Task {
         this.productDescription = productDescription;
     }
 
-    public void setAssignedUsers(Set<Assignment> assignedUsers) {
-        this.assignedUsers = assignedUsers;
-    }
-
     public void setEstTime(int estTime) {
         this.estTime = estTime;
     }
@@ -128,11 +136,11 @@ public class Task {
         this.spentTime = spentTime;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
@@ -143,13 +151,12 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "id=" + id +
+                "id=" + taskID +
                 ", parentTaskID=" + parentTaskID +
                 ", title='" + title + '\'' +
                 ", type='" + type + '\'' +
                 ", description='" + description + '\'' +
                 ", productDescription='" + productDescription + '\'' +
-                ", assignedUsers=" + assignedUsers +
                 ", estTime=" + estTime +
                 ", spentTime=" + spentTime +
                 ", startDate=" + startDate +
