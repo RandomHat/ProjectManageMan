@@ -1,6 +1,11 @@
 package com.fourthgroup.projectmanageman.repository;
 
-import com.fourthgroup.projectmanageman.utility.ConnectionPool;
+/*
+    ===============================
+    Author: Simon Roswall Jørgensen
+    Date: Dec 11, 2021
+    ===============================
+ */
 
 public interface IRepository<T> {
 

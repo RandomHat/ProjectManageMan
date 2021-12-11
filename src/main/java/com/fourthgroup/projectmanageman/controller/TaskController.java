@@ -13,6 +13,13 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 
+/*
+    ===============================
+    Author: Simon Roswall Jørgensen
+    Date: Dec 11, 2021
+    ===============================
+ */
+
 @Controller
 public class TaskController {
     TaskService service;

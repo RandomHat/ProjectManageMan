@@ -10,6 +10,13 @@ import org.springframework.web.context.request.WebRequest;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/*
+    ===============================
+    Author: Simon Roswall Jørgensen
+    Date: Dec 11, 2021
+    ===============================
+ */
+
 @Service
 public class TaskService {
 
