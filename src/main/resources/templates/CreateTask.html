@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a task!</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <form class th:action="@{/project/{projectId}/new-task}" method="post">
+                <div>
+                    <label for="task-title">Title</label>
+                    <input type="text" id="task-title" name="title" placeholder="title" required>
+                </div>
+                <div>
+                    <label for="task-type">Type</label>
+                    <input type="text" id="task-type" name="type" placeholder="Ex. Frontend development">
+                </div>
+                <div>
+                    <label for="task-description">Description</label>
+                    <textarea  id="task-description" name="description" placeholder="enter a description of the task"></textarea>
+                </div>
+                <div>
+                    <label for="task-product-description">Work-product description</label>
+                    <textarea type="textfield" id="task-product-description" name="product-description" placeholder="enter a description of the desired work-product expected to be delivered"></textarea>
+                </div>
+                <div>
+                    <label for="task-est-time">Estimated completion time (hours)</label>
+                    <input type="number" id="task-est-time" name="est-time" value="0" required>
+                </div>
+                <div>
+                    <label for="task-start-date">Start date</label>
+                    <input type="date" id="task-start-date" name="start-date">
+                </div>
+                <div>
+                    <label for="task-deadline">Deadline</label>
+                    <input type="date" id="task-deadline" name="deadline">
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit" name="task-submit">Create task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

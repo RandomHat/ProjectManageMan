@@ -174,6 +174,7 @@ public class UserRepository {
                         resultSet.getInt("project_id"),
                         resultSet.getInt("parent_task_id"),
                         resultSet.getString("title"),
+                        resultSet.getString("type"),
                         resultSet.getString("description"),
                         resultSet.getString("product_description"),
                         resultSet.getInt("est_time_hours"),

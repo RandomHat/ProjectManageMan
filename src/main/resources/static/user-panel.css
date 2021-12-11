@@ -1,0 +1,39 @@
+/*
+    ===============================
+    Author: Mark Kaplan Hansen
+    Date: Dec 10, 2021
+    ===============================
+ */
+
+.side-menu{
+    background-color: #F8F9FA;
+    min-height:1000px;
+}
+.side-menu-button{
+    text-decoration:none;
+    font-family: Montserrat, sans-serif;
+    font-size: 20px;
+    padding: 15px;
+
+    color: black;
+    font-weight:800;
+
+}
+.side-menu-button:hover{
+    color:black;
+    border-bottom: #FF325A 4px solid ;
+}
+.list-btn{
+    height: 50%;
+    width:80%;
+}
+
+.margin-top-outerbox{
+    margin-top: 25px;
+}
+
+.align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -12,15 +12,15 @@ import java.sql.Date;
 
 public class Task {
 
-    private int taskID;
-    private int projectID;
-    private int parentTaskID;
+    private Integer taskID;
+    private Integer projectID;
+    private Integer parentTaskID;
     private String title;
     private String type;
     private String description;
     private String productDescription;
-    private int estTime;
-    private int spentTime;
+    private Integer estTime;
+    private Integer spentTime;
     private LocalDate startDate;
     private LocalDate deadline;
     Status status;
@@ -89,7 +89,10 @@ public class Task {
     }
 
     public Date getStartDateSQL(){
-        return Date.valueOf(String.valueOf(this.startDate));
+        if (this.startDate != null){
+            return Date.valueOf(String.valueOf(this.startDate));
+        }
+        return null;
     }
 
     public LocalDate getDeadline() {
@@ -97,7 +100,10 @@ public class Task {
     }
 
     public Date getDeadlineSQL(){
-        return Date.valueOf(String.valueOf(this.deadline));
+        if (this.deadline != null){
+            return Date.valueOf(String.valueOf(this.deadline));
+        }
+        return null;
     }
 
     public Status getStatus() {

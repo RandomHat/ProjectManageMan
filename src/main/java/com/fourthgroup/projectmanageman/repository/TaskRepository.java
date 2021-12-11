@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 
 @Repository
@@ -23,35 +24,31 @@ public class TaskRepository implements IRepository<Task> {
     ConnectionPool connectionPool;
 
     @Override
-    public boolean write(Task task) {
+    public int write(Task task) {
         Connection conn = connectionPool.getConnection();
         PreparedStatement preparedStatement;
-        boolean isCreated = true;
+        int index = -1;
+        String query = "INSERT INTO tasks(project_id, parent_task_id, title, type, description, " +
+                "product_description, est_time_hours, spent_time_hours, start_date, deadline, status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            preparedStatement = conn.prepareStatement("INSERT INTO tasks(project_id, parent_task_id, title, type, description, product_description," +
-                    " est_time_hours, spent_time_hours, start_date, deadline, status) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-            preparedStatement.setInt(1,task.getProjectID());
-            preparedStatement.setInt(2, task.getParentTaskID());
-            preparedStatement.setString(3, task.getTitle());
-            preparedStatement.setString(4, task.getType());
-            preparedStatement.setString(5, task.getDescription());
-            preparedStatement.setString(6, task.getProductDescription());
-            preparedStatement.setInt(7, task.getEstTime());
-            preparedStatement.setInt(8, task.getSpentTime());
-            preparedStatement.setDate(9, task.getStartDateSQL());
-            preparedStatement.setDate(10,task.getStartDateSQL());
-            preparedStatement.setInt(11, task.getStatus().ordinal());
+            setValues(preparedStatement, task);
             preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                index = resultSet.getInt(1);
+            }
 
         } catch (SQLException err){
-            isCreated = false;
             System.out.println("SQL insert failed with error: " + err);
         } finally {
             connectionPool.releaseConnection(conn);
         }
-        return isCreated;
+        return index;
     }
 
     @Override
@@ -61,13 +58,14 @@ public class TaskRepository implements IRepository<Task> {
         Task task = null;
 
         try {
-            preparedStatement = conn.prepareStatement("SELECT * from tasks where task_id = (?)");
+            preparedStatement = conn.prepareStatement("SELECT * from tasks where task_id = ?");
             preparedStatement.setInt(1, id);
 
             ResultSet result = preparedStatement.executeQuery();
 
-            result.next(); //points to first object
-            task = unpackSingleResult(result);
+            if (result.next()) { //points to first object
+                task = unpackSingleResult(result);
+            }
 
         } catch (SQLException err){
             System.out.println("SQL select failed with error: " + err);
@@ -85,9 +83,11 @@ public class TaskRepository implements IRepository<Task> {
 
         try {
             preparedStatement = conn.prepareStatement("UPDATE tasks SET project_id = ?, parent_task_id = ?, " +
-                    "title=?, type=?, description=?, product_description=?, est_time_hours=?, " +
-                    "spent_time_hours=?, start_date=?, deadline=?, status=? WHERE task_id = ? ");
+                    "title = ?, type = ?, description = ?, product_description = ?, est_time_hours = ?, " +
+                    "spent_time_hours = ?, start_date = ?, deadline = ?, status=? WHERE task_id = ?");
 
+            setValues(preparedStatement, task);
+            preparedStatement.setInt(12,task.getTaskID());
             preparedStatement.executeUpdate();
         }
         catch (SQLException err){
@@ -107,7 +107,8 @@ public class TaskRepository implements IRepository<Task> {
         boolean isDeleted = true;
 
         try {
-            preparedStatement = conn.prepareStatement("DELETE FROM tasks WHERE (task_id = ?) ");
+            preparedStatement = conn.prepareStatement("DELETE FROM tasks WHERE task_id = ?");
+            preparedStatement.setInt(1,task.getTaskID());
             preparedStatement.executeUpdate();
 
         }
@@ -152,6 +153,12 @@ public class TaskRepository implements IRepository<Task> {
     }
 
     private Task unpackSingleResult(ResultSet result) throws SQLException{
+
+        // checks nullpointer with a condensed if/else (ternary operator)
+        LocalDate startdate = result.getDate(10) == null ? null : result.getDate(10).toLocalDate();
+        LocalDate deadline = result.getDate(11) == null ? null : result.getDate(11).toLocalDate();
+        Status status = result.getInt(12) == 0 ? null : Status.fromInteger(result.getInt(12));
+
         return new Task(
                 result.getInt(1),
                 result.getInt(2),
@@ -162,10 +169,54 @@ public class TaskRepository implements IRepository<Task> {
                 result.getString(7),
                 result.getInt(8),
                 result.getInt(9),
-                result.getDate(10).toLocalDate(),
-                result.getDate(11).toLocalDate(),
-                Status.fromInteger(result.getInt(12))
+                startdate,
+                deadline,
+                status
         );
+    }
+
+    /**
+     * Adresses null-pointer exceptions when handling integer fields with null values.
+     *
+     * @param pstm Only valid for an SQL statement concerning tasks, with all 11 task columns as input parameters.
+     *             task_id is excluded as the value is handled by the DB (auto incremented).
+     * @param task The object to get values from.
+     */
+    private void setValues(PreparedStatement pstm, Task task) throws SQLException{
+        if (task.getProjectID() != null){
+            pstm.setInt(1,task.getProjectID());
+        } else {
+            pstm.setNull(1, Types.INTEGER);
+        }
+        if (task.getParentTaskID() != null) {
+            pstm.setInt(2, task.getParentTaskID());
+        } else {
+            pstm.setNull(2, Types.INTEGER);
+        }
+        pstm.setString(3, task.getTitle());
+        pstm.setString(4, task.getType());
+        pstm.setString(5, task.getDescription());
+        pstm.setString(6, task.getProductDescription());
+
+        if (task.getEstTime() != null){
+            pstm.setInt(7, task.getEstTime());
+        } else {
+            pstm.setNull(7, Types.INTEGER);
+        }
+        if (task.getSpentTime() != null) {
+            pstm.setInt(8, task.getSpentTime());
+        } else {
+            pstm.setNull(8,Types.INTEGER);
+        }
+
+        pstm.setDate(9, task.getStartDateSQL());
+        pstm.setDate(10,task.getStartDateSQL());
+
+        if (task.getStatus() != null) {
+            pstm.setInt(11,task.getStatus().ordinal());
+        } else {
+            pstm.setNull(11, Types.INTEGER);
+        }
     }
 
     @Autowired
