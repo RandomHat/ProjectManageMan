@@ -37,9 +37,14 @@ public class TaskService {
         task.setDescription(taskForm.getParameter("description"));
         task.setProductDescription(taskForm.getParameter("product-description"));
         task.setEstTime(Integer.parseInt(Objects.requireNonNull(taskForm.getParameter("est-time"))));
-        task.setStartDate(LocalDate.parse(taskForm.getParameter("start-date")));
-        task.setDeadline(LocalDate.parse(taskForm.getParameter("deadline")));
 
+        String startDateRaw = taskForm.getParameter("start-date");
+        LocalDate startDate = "".equals(startDateRaw) ? null : LocalDate.parse(startDateRaw);
+        task.setStartDate(startDate);
+
+        String deadlineRaw = taskForm.getParameter("deadline");
+        LocalDate deadline = "".equals(deadlineRaw) ? null : LocalDate.parse(deadlineRaw);
+        task.setDeadline(deadline);
         return task;
     }
 

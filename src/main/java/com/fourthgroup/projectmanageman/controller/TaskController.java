@@ -18,15 +18,15 @@ public class TaskController {
     TaskService service;
 
     @GetMapping("/project/{projectID}/new-task")
-    @ResponseBody
-    public String createTaskGET(@PathVariable("projectID") String projectID, HttpSession session){
+    public String createTaskGET(@PathVariable("projectID") int projectID, Model model, HttpSession session){
+        model.addAttribute("projectID",projectID);
         //Authorise User
-        return "ID=" + projectID;
+        return "CreateTask";
     }
 
     @PostMapping("/project/{projectID}/new-task")
-    public RedirectView createTaskPOST(@PathVariable("projectID") String projectID, WebRequest taskForm, HttpSession session){
-        if (service.createTask(taskForm, Integer.parseInt(projectID))) {
+    public RedirectView createTaskPOST(@PathVariable("projectID") int projectID, WebRequest taskForm, HttpSession session){
+        if (service.createTask(taskForm, projectID)) {
             return new RedirectView("/project/" + projectID);
         } else {
             return new RedirectView("/project/" + projectID +"/new-task");
