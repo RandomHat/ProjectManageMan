@@ -75,8 +75,8 @@ public class UserController {
         model.addAttribute("projects",userProjectlist);
         model.addAttribute("tasks",userTaskList);
         model.addAttribute("user",session.getAttribute("user"));
-        model.addAttribute("projectChart",chartService.projectChart(userProjectlist));
-        model.addAttribute("taskChart",chartService.taskChart(userTaskList));
+        model.addAttribute("projectChart",chartService.projectGanttChart(userProjectlist));
+        model.addAttribute("taskChart",chartService.taskGanttChart(userTaskList));
 
         return "/user-panel";
     }
