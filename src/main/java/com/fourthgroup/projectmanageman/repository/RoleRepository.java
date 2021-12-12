@@ -11,10 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /*
+
     ===============================
     Author: Mark Kaplan Hansen
-    Date: Nov 29, 2021
+    github: BenAtic-KEA
+    Date: Dec 12, 2021
     ===============================
+
  */
 
 @Component

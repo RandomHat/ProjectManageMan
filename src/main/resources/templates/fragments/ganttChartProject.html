@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <title>GanttChart</title>
     <th:block th:fragment="chartProjectHead (projectChart)">
+
+        <!--
+        ===============================
+        Author: Mark Kaplan Hansen
+        github: BenAtic-KEA
+        Date: Dec 12, 2021
+        ===============================
+        Source: https://developers.google.com/chart/interactive/docs/gallery/ganttchart?hl=da#grouping-resources  -->
+
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" th:inline = "javascript">
             google.charts.load('current', {
@@ -11,8 +20,6 @@
                 packages: ['gantt']
             });
             google.charts.setOnLoadCallback(drawProjectChart());
-
-
 
             function daysToMilliseconds(days) {
                 return days * 24 * 60 * 60 * 1000;

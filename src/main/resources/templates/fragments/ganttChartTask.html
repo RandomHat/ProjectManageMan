@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <title>GanttChart</title>
     <th:block th:fragment="chartTaskHead (taskChart)">
+
+        <!--
+        ===============================
+        Author: Mark Kaplan Hansen
+        github: BenAtic-KEA
+        Date: Dec 12, 2021
+        ===============================
+        Source: https://developers.google.com/chart/interactive/docs/gallery/ganttchart?hl=da#grouping-resources  -->
+
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" th:inline = "javascript">
-
             google.charts.load('current', {
                 callback: drawTaskChart,
                 packages: ['gantt']
