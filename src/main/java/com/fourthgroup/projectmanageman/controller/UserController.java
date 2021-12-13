@@ -40,6 +40,13 @@ public class UserController {
 
     @GetMapping("/create-account")
     public String createAccountView(HttpSession session){
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
+        User user = (User)session.getAttribute("user");
+        if(!user.isAdmin()){
+            return "redirect:/user-panel";
+        }
         return "CreateAccount";
     }
 
@@ -55,7 +62,7 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public String loginView(HttpSession session){
+    public String loginView(){
         return "Login";
     }
 
@@ -71,6 +78,9 @@ public class UserController {
 
     @GetMapping("/user-panel")
     public String userPanelView(HttpSession session, Model model){
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
         List<Project> userProjectlist = userService.userProjectList(session);
         List<Task> userTaskList = userService.userTaskList(session);
         model.addAttribute("projects",userProjectlist);
