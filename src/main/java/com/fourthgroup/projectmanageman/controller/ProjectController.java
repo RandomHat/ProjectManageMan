@@ -116,4 +116,5 @@ public class ProjectController {
         int a = userProjectRoleService.assignParticipantToProject(user, project);
         return "assign-participant";
     }
+
 }

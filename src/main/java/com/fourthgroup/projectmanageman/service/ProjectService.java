@@ -41,13 +41,17 @@ public class ProjectService {
     public Project saveProjectForm (WebRequest projectForm){
         Project project = new Project();
         project.setTitle(projectForm.getParameter("projecttitle"));
-        project.setStartDate(parseInputDate(projectForm.getParameter("startdate")));
-        project.setDeadline(parseInputDate(projectForm.getParameter("deadline")));
+        project.setStartDate(project.parseInputDate(projectForm.getParameter("startdate")));
+        project.setDeadline(project.parseInputDate(projectForm.getParameter("deadline")));
         project.setClient(projectForm.getParameter("projectclient"));
         project.setDescription(projectForm.getParameter("projectdescription"));
         project.setParentProjectID(111); //How to self reference?
         project.setStatus(Status.PENDING);
         return project;
+    }
+
+    public boolean deleteProject (int projectId){
+        return projectRepo.deleteProject(projectId);
     }
 
 
@@ -56,15 +60,5 @@ public class ProjectService {
 
         projectID = projectRepo.writeNewProjectComplete(project);
         return projectID;
-    }
-
-    public LocalDate parseInputDate (String dateTime) {
-        try {
-            return LocalDate.parse(dateTime.substring(0,10)); //YYYY-MM-DDTHH-MM-SS -> YYYY-MM-DD
-        }
-        catch (DateTimeException e){
-            System.out.println("Dateformat was borked. Default to current date " + e.getMessage());
-            return LocalDate.now();
-        }
     }
 }
