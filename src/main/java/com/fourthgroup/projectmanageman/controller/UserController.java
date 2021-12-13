@@ -18,7 +18,8 @@ import java.util.List;
 /*
     ===============================
     Author: Mark Kaplan Hansen
-    Date: Dec 3, 2021
+    github: BenAtic-KEA
+    Date: Dec 12, 2021
     ===============================
  */
 
@@ -39,6 +40,13 @@ public class UserController {
 
     @GetMapping("/create-account")
     public String createAccountView(HttpSession session){
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
+        User user = (User)session.getAttribute("user");
+        if(!user.isAdmin()){
+            return "redirect:/user-panel";
+        }
         return "CreateAccount";
     }
 
@@ -54,7 +62,7 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public String loginView(HttpSession session){
+    public String loginView(){
         return "Login";
     }
 
@@ -70,13 +78,16 @@ public class UserController {
 
     @GetMapping("/user-panel")
     public String userPanelView(HttpSession session, Model model){
+        if(session.getAttribute("user") == null){
+            return "redirect:/";
+        }
         List<Project> userProjectlist = userService.userProjectList(session);
         List<Task> userTaskList = userService.userTaskList(session);
         model.addAttribute("projects",userProjectlist);
         model.addAttribute("tasks",userTaskList);
         model.addAttribute("user",session.getAttribute("user"));
-        model.addAttribute("projectChart",chartService.projectChart(userProjectlist));
-        model.addAttribute("taskChart",chartService.taskChart(userTaskList));
+        model.addAttribute("projectChart",chartService.projectGanttChart(userProjectlist));
+        model.addAttribute("taskChart",chartService.taskGanttChart(userTaskList));
 
         return "/user-panel";
     }

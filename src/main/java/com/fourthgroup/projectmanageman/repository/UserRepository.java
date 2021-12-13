@@ -20,7 +20,8 @@ import java.util.List;
 /*
     ===============================
     Author: Mark Kaplan Hansen
-    Date: Nov 29, 2021
+    github: BenAtic-KEA
+    Date: Dec 12, 2021
     ===============================
  */
 @Component
@@ -128,7 +129,9 @@ public class UserRepository {
         try {
             pstmt = connection.prepareStatement("SELECT p.* from project_enrollments " +
                     "JOIN projects p ON project_enrollments.project_id = p.project_id " +
-                    "where user_id = ?");
+                    "where user_id = ? " +
+                    "order by deadline");
+
             pstmt.setInt(1, userID);
             ResultSet resultSet = pstmt.executeQuery();
 
@@ -164,7 +167,8 @@ public class UserRepository {
         try {
             pstmt = connection.prepareStatement("SELECT t.* from assignments " +
                     "JOIN tasks t ON assignments.task_id = t.task_id " +
-                    "where user_id = ?");
+                    "where user_id = ? " +
+                    "order by deadline");
             pstmt.setInt(1, userID);
             ResultSet resultSet = pstmt.executeQuery();
 

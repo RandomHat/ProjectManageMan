@@ -2,6 +2,7 @@ package com.fourthgroup.projectmanageman.model;
 /*
     ===============================
     Author: Mark Kaplan Hansen
+    github: BenAtic-KEA
     Date: Nov 26, 2021
     ===============================
  */

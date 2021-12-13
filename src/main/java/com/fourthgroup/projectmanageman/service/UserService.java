@@ -15,7 +15,8 @@ import java.util.Objects;
 /*
     ===============================
     Author: Mark Kaplan Hansen
-    Date: Nov 10, 2021
+    github: BenAtic-KEA
+    Date: Dec 12, 2021
     ===============================
  */
 @Component
