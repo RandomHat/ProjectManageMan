@@ -1,5 +1,6 @@
 package com.fourthgroup.projectmanageman.model;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.sql.Date;
 
@@ -151,6 +152,16 @@ public class Project {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public LocalDate parseInputDate (String dateTime) {
+        try {
+            return LocalDate.parse(dateTime.substring(0,10)); //YYYY-MM-DDTHH-MM-SS -> YYYY-MM-DD
+        }
+        catch (DateTimeException e){
+            System.out.println("Dateformat was borked. Default to 1970 unix time " + e.getMessage());
+            return LocalDate.EPOCH;
+        }
     }
 }
 

@@ -3,6 +3,8 @@ package com.fourthgroup.projectmanageman.repository;
 import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.Role;
 import com.fourthgroup.projectmanageman.model.Status;
+import com.fourthgroup.projectmanageman.model.Task;
+import com.fourthgroup.projectmanageman.service.ProjectService;
 import com.fourthgroup.projectmanageman.utility.ConnectionPool;
 import com.fourthgroup.projectmanageman.utility.MySQLConnectionPool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +29,7 @@ public class ProjectRepository {
     public void setConnectionPool(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
-
     ConnectionPool connectionPool;
-    List<Project> projectList;
 
     public Project getProjectById(int id) {
         Connection connection = connectionPool.getConnection();
@@ -112,8 +112,10 @@ public class ProjectRepository {
                 currentProject.setStatus(Status.fromInteger(resultSet.getInt("status")));
                 currentProject.setDescription(resultSet.getString("description"));
                 currentProject.setClient(resultSet.getString("client"));
-                currentProject.setStartDate(LocalDate.parse(resultSet.getString("startdate"))); //Parse sqldate to Localdate
-                currentProject.setDeadline(LocalDate.parse(resultSet.getString("deadline")));
+                //currentProject.setStartDate(LocalDate.parse(resultSet.getString("startdate"))); //Parse sqldate to Localdate
+                //currentProject.setDeadline(LocalDate.parse(resultSet.getString("deadline")));
+                currentProject.setStartDate(currentProject.parseInputDate(resultSet.getString("startdate")));
+                currentProject.setDeadline(currentProject.parseInputDate(resultSet.getString("deadline")));
                 currentProject.setEstTimeHours(resultSet.getInt("est_time_hours"));
                 currentProject.setSpentTimeHours(resultSet.getInt("spent_hours"));
 
@@ -164,5 +166,23 @@ public class ProjectRepository {
         }
     }
 
+    public boolean deleteProject(int projectId) {
+        Connection conn = connectionPool.getConnection();
+        PreparedStatement preparedStatement;
+        boolean isDeleted = true;
+
+        try {
+            preparedStatement = conn.prepareStatement("DELETE FROM projects WHERE project_id = ?");
+            preparedStatement.setInt(1,projectId);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException err){
+            System.out.println(err.getMessage());
+            isDeleted = false;
+        }
+
+        connectionPool.releaseConnection(conn);
+        return isDeleted;
+    }
 
 }
