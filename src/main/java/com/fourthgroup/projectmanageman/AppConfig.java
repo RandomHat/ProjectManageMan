@@ -8,6 +8,13 @@ import org.springframework.context.annotation.Configuration;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
+/*
+    ===============================
+    Author: Simon Roswall Jørgensen
+    Original creation Date: Nov 27, 2021
+    ===============================
+ */
+
 @Configuration
 public class AppConfig {
 

@@ -20,7 +20,8 @@ import java.util.List;
 /*
     ===============================
     Author: Mark Kaplan Hansen
-    Date: Nov 29, 2021
+    github: BenAtic-KEA
+    Date: Dec 12, 2021
     ===============================
  */
 @Component
@@ -177,6 +178,7 @@ public class UserRepository {
                         resultSet.getInt("project_id"),
                         resultSet.getInt("parent_task_id"),
                         resultSet.getString("title"),
+                        resultSet.getString("type"),
                         resultSet.getString("description"),
                         resultSet.getString("product_description"),
                         resultSet.getInt("est_time_hours"),
