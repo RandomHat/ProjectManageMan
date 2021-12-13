@@ -116,7 +116,7 @@
                                 <td><span th:text="${task.estTime}"></span></td>
                                 <td><span th:text="${task.spentTime}"></span></td>
                                 <td><span th:text="${#temporals.format(task.deadline, 'dd-MMM-yyyy')}"></span></td>
-                                <td><a class="btn-sm btn-primary" role="button" th:href="'/Task/' + ${task.id}" th:text="'#' + ${task.id} "> </a></td>
+                                <td><a class="btn-sm btn-primary" role="button" th:href="'/Task/' + ${task.taskID}" th:text="'#' + ${task.taskID} "> </a></td>
                             </tr>
                             </tbody>
                         </table>

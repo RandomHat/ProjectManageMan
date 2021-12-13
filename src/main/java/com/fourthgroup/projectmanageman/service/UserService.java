@@ -57,7 +57,6 @@ public class UserService {
             user.setId(-1);
             return user;
         }
-
     }
 
     public List<Project> userProjectList(HttpSession session) {

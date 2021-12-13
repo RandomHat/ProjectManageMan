@@ -59,7 +59,11 @@ public class ChartService {
         return projectArray;
     }
 
-
+    /**
+     * Makes array for ganttChartProject js to read
+     * @param projectList
+     * @return array of string arrays
+     */
     public String[][] projectGanttChart(List<Project> projectList){
         String[][] dataArrays = new String[projectList.size()][];
 
@@ -111,6 +115,11 @@ public class ChartService {
         return dataArrays;
     }
 
+    /**
+     * Makes array for ganttChartTask js to read
+     * @param taskList
+     * @return array of string arrays
+     */
     public String[][] taskGanttChart(List<Task> taskList){
         String[][] dataArrays = new String[taskList.size()][];
 
@@ -170,7 +179,7 @@ public class ChartService {
             }
         }
         if(dependencies.length() == 0){
-            return dependencies = "";
+            return dependencies;
         }
 
         return dependencies.substring(0,dependencies.length()-1);
@@ -184,7 +193,7 @@ public class ChartService {
                 }
             }
             if(dependencies.length() == 0){
-                return dependencies = "";
+                return dependencies;
             }
 
         return dependencies.substring(0,dependencies.length()-1);
