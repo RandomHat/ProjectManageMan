@@ -117,7 +117,7 @@ public class ChartService {
         for (int i = 0; i < taskList.size() ; i++){
             String[] currentTask = new String[8];
             //TaskID
-            currentTask[0] = Integer.toString(taskList.get(i).getId());
+            currentTask[0] = Integer.toString(taskList.get(i).getTaskID());
             //Task Title
             currentTask[1] = taskList.get(i).getTitle();
             //Project id or parentId id
@@ -179,8 +179,8 @@ public class ChartService {
         String dependencies = "";
 
             for(Task currentTask : taskList ){
-                if(currentTask.getParentTaskID() == task.getId()){
-                    dependencies += currentTask.getId() + ",";
+                if(currentTask.getParentTaskID() == task.getTaskID()){
+                    dependencies += currentTask.getTaskID() + ",";
                 }
             }
             if(dependencies.length() == 0){
