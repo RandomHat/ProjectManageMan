@@ -47,7 +47,7 @@ public class TaskController {
     }
 
     @PostMapping("/project/{projectID}/{parentTaskID}/new-task")
-    public RedirectView createTaskPOST(@PathVariable int projectID, @PathVariable int parentTaskID, WebRequest taskForm, HttpSession session){
+    public RedirectView createSubTaskPOST(@PathVariable int projectID, @PathVariable int parentTaskID, WebRequest taskForm, HttpSession session){
 
         if (service.createTask(taskForm, projectID, parentTaskID)) {
             return new RedirectView("/project/" + projectID + "/" + parentTaskID);
