@@ -11,9 +11,9 @@
 
 <body>
 
-<header th:replace="fragments/general.html :: header"></header>
+<header th:include="fragments/general.html :: header"></header>
 
-    <div class="container">
+    <div class="container min-vh-100">
         <div class="row justify-content-md-center">
             <div class="d-flex flex-row flex-wrap justify-content-center">
                 <div th:each="task, itr : ${tasks}">
@@ -21,10 +21,15 @@
                 </div>
             </div>
         </div>
+        <div class="row d-inline-flex">
+            <button th:replace="fragments/taskModals.html :: create-task-button"></button>
+        </div>
     </div>
 
 <footer th:replace="fragments/general.html :: footer"></footer>
-
+    <div>
+        <div th:replace="fragments/taskModals.html :: create-task-modal(projectID=${projectID}, isParent=${isParent}, task=${emptyTask}, parentTaskID=${parentTaskID})"></div>
+    </div>
     <div th:each="task : ${tasks}">
         <div th:replace="fragments/taskModals.html :: task-display-modal(${projectID}, ${task})"></div>
     </div>
