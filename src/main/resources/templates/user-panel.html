@@ -19,9 +19,7 @@
 
 </head>
 <body>
-
 <header th:replace="fragments/general :: header"></header>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 side-menu">
@@ -125,12 +123,12 @@
             </div>
             <div class="row">
                 <div class="col-12 col-lg-6 mt-4">
-                    <div class="round-border box-shadow h-100 pb-2" id="project-container" th:if="${projects.size()> 0}">
+                    <div class="round-border box-shadow h-100 pb-2" id="project-container" th:if="${!tasks.empty}">
                         <h3>Gantt Project diagram</h3>
                         <div  th:replace="fragments/ganttChartProject::chartProjectBody"></div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6 mt-4" th:if="${tasks.size() > 0}">
+                <div class="col-12 col-lg-6 mt-4" th:if="${!tasks.empty}">
                     <div class="round-border box-shadow h-100 pb-2" id="task-container">
                         <h3>Gantt Task diagram</h3>
                         <div th:replace="fragments/ganttChartTask :: chartTaskBody"></div>
