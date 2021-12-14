@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<!--
+    ===============================
+    Author: Simon Roswall Jørgensen
+    Date: Dec 11, 2021
+    ===============================
+-->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a task!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style th:replace="fragments/general.html :: style"></style>
+</head>
+<body>
+    <div class="d-flex flex justify-content-center">
+    <div class="card">
+        <div class="card-body" >
+                <div th:with="parentTask=(${isParent} ? '/new-task' : '/' + ${parentTaskID} + '/new-task')">
+                    <form class="d-flex flex-column" th:action="@{'/project' + ${projectID} + ${parentTaskID}}" method="post">
+                        <span class="card-title border-bottom align-self-center">Create Task</span>
+                        <div class="form-floating">
+                            <input class="form-control" type="text" id="task-title" name="title" placeholder="title" required>
+                            <label for="task-title">Title</label>
+                        </div>
+                        <div class="form-floating">
+                            <input class="form-control" type="text" id="task-type" name="type" placeholder="Ex. Frontend development">
+                            <label for="task-type">Type</label>
+                        </div>
+                        <div class="form-floating">
+                           <textarea class="form-control" id="task-description" name="description" placeholder="enter a description of the task"></textarea>
+                            <label for="task-description">Description</label>
+                        </div>
+                        <div class="form-floating">
+                           <textarea class="form-control" type="textfield" id="task-product-description" name="product-description" placeholder="enter a description of the desired work-product expected to be delivered"></textarea>
+                            <label for="task-product-description">Work-product description</label>
+                        </div>
+                        <div class="form-floating">
+                            <input class="form-control" type="number" id="task-est-time" name="est-time">
+                            <label for="task-est-time">Estimated completion time (hours)</label>
+                        </div>
+                        <div class="form-floating">
+                            <input class="form-control" type="date" id="task-start-date" name="start-date">
+                            <label for="task-start-date">Start date</label>
+                        </div>
+                        <div class="form-floating">
+                            <input class="form-control" type="date" id="task-deadline" name="deadline">
+                            <label for="task-deadline">Deadline</label>
+                        </div>
+                        <div class="align-self-center">
+                            <button class="btn btn-primary m-3" type="submit" name="task-submit">Create task</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

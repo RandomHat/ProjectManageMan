@@ -1,5 +1,6 @@
 package com.fourthgroup.projectmanageman.controller;
 
+import com.fourthgroup.projectmanageman.model.Task;
 import com.fourthgroup.projectmanageman.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
+import java.util.Set;
 
 /*
     ===============================
@@ -24,42 +26,49 @@ import javax.servlet.http.HttpSession;
 public class TaskController {
     TaskService service;
 
-    @GetMapping("/project/{projectID}/new-task")
-    public String createTaskGET(@PathVariable("projectID") int projectID, Model model, HttpSession session){
-        model.addAttribute("projectID",projectID);
-        //Authorise User
-        return "CreateTask";
-    }
-
     @PostMapping("/project/{projectID}/new-task")
-    public RedirectView createTaskPOST(@PathVariable("projectID") int projectID, WebRequest taskForm, HttpSession session){
+    public String createTaskPOST(@PathVariable("projectID") int projectID, WebRequest taskForm, Model model, HttpSession session){
+        model.addAttribute(projectID);
+        model.addAttribute("isParent", true);
         if (service.createTask(taskForm, projectID)) {
-            return new RedirectView("/project/" + projectID);
+            return "redirect:/project/" + projectID;
         } else {
-            return new RedirectView("/project/" + projectID +"/new-task");
+            return "CreateTaskError";
         }
     }
 
-    @GetMapping("/project/{projectID}/{parentTaskID}/new-sub-task")
-    public String createSubTaskGET(@PathVariable int projectID, @PathVariable int parentTaskID, HttpSession session){
-        return "CreateTask";
-
-    }
-
     @PostMapping("/project/{projectID}/{parentTaskID}/new-task")
-    public RedirectView createSubTaskPOST(@PathVariable int projectID, @PathVariable int parentTaskID, WebRequest taskForm, HttpSession session){
-
+    public String createSubTaskPOST(@PathVariable int projectID, @PathVariable int parentTaskID, Model model, WebRequest taskForm, HttpSession session){
+        model.addAttribute(projectID);
+        model.addAttribute(parentTaskID);
+        model.addAttribute("isParent", false);
         if (service.createTask(taskForm, projectID, parentTaskID)) {
-            return new RedirectView("/project/" + projectID + "/" + parentTaskID);
+            return "redirect:/project/" + projectID + "/" + parentTaskID;
         } else {
-            return new RedirectView("/project/" + projectID + "/" + parentTaskID + "/new-task");
+            return "CreateTaskError";
         }
     }
 
     @GetMapping("/project/{projectID}/{taskID}")
-    public String taskGET(@PathVariable int projectID, @PathVariable int taskID, Model model){
+    public String subTaskGET(@PathVariable int projectID, @PathVariable int taskID, Model model){
         //service.getTask(taskID)
-        return "getTask";
+        model.addAttribute(projectID);
+        model.addAttribute("tasks", service.getSubTasks(taskID).toArray());
+        return "subTasks";
+    }
+
+    @PostMapping("/project/{projectID}/{taskID}/update")
+    public String updateTaskPOST(@PathVariable int projectID, @PathVariable int taskID, Model model, WebRequest taskForm, HttpSession session){
+        if(service.update(taskForm, taskID)){
+            return "redirect:/project/" + projectID;
+        }
+        return "WrongAccountInfo";
+    }
+
+    @PostMapping("/project/{projectID}/{taskID}/delete")
+    public String deleteTaskPOST(@PathVariable int projectID,@PathVariable int taskID, Model model, HttpSession session) {
+        service.delete(taskID);
+        return "redirect:/project/" + projectID;
     }
 
     @Autowired
