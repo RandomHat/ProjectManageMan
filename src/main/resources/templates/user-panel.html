@@ -27,15 +27,15 @@
                 <div class="col">
                     <div class="row w-100">
                         <div class="col text-center">
-                            <a href="Login.html" class="col d-inline-flex side-menu-button">
-                                my projects
+                            <a th:href="'/project/user/' + ${user.id}" class="col d-inline-flex side-menu-button">
+                                My Projects
                             </a>
                         </div>
                     </div>
                     <div class="row w-100">
                         <div class="col text-center">
-                            <a href="Login.html" class="col d-inline-flex side-menu-button">
-                                W/e
+                            <a href="#" class="col d-inline-flex side-menu-button">
+                                My Tasks
                             </a>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="row w-100">
                         <div class="col text-center">
-                            <a th:if="${user.isAdmin == true}" href="/user-settings" class="col d-inline-flex side-menu-button">
+                            <a th:if="${user.isAdmin == true}" href="#" class="col d-inline-flex side-menu-button">
                                 Make user admin
                             </a>
                         </div>
@@ -114,7 +114,7 @@
                                 <td><span th:text="${task.estTime}"></span></td>
                                 <td><span th:text="${task.spentTime}"></span></td>
                                 <td><span th:text="${#temporals.format(task.deadline, 'dd-MMM-yyyy')}"></span></td>
-                                <td><a class="btn-sm btn-primary" role="button" th:href="'/Task/' + ${task.taskID}" th:text="'#' + ${task.taskID} "> </a></td>
+                                <td><a class="btn-sm btn-primary" role="button" th:href="'/project/' + ${task.getProjectID()} + '/' + ${task.getTaskID()}" th:text="'#' + ${task.taskID} "> </a></td>
                             </tr>
                             </tbody>
                         </table>

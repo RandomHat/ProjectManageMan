@@ -132,12 +132,12 @@ public class ChartService {
         return dataArrays;
     }
 
-    private String parentId(Project task, List<Project> taskList){
+    private String parentId(Project project, List<Project> projectList){
         String dependencies = "";
 
-        for(Project currentTask : taskList ){
-            if(currentTask.getParentProjectID() == task.getId()){
-                dependencies += currentTask.getId() + ",";
+        for(Project currentProject : projectList){
+            if(currentProject.getParentProjectID() == project.getId()){
+                dependencies += currentProject.getId() + ",";
             }
         }
         if(dependencies.length() == 0){

@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/create-account")
-    public String createAccountView(HttpSession session){
+    public String createAccountView(HttpSession session, Model model){
         if(session.getAttribute("user") == null){
             return "redirect:/";
         }
@@ -47,6 +47,7 @@ public class UserController {
         if(!user.isAdmin()){
             return "redirect:/user-panel";
         }
+        model.addAttribute("user",session.getAttribute("user"));
         return "CreateAccount";
     }
 
