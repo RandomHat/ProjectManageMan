@@ -41,7 +41,6 @@ public class TaskController {
     public String createSubTaskPOST(@PathVariable int projectID, @PathVariable int parentTaskID, Model model, WebRequest taskForm, HttpSession session){
         model.addAttribute(projectID);
         model.addAttribute(parentTaskID);
-        model.addAttribute("isParent", false);
         if (service.createTask(taskForm, projectID, parentTaskID)) {
             return "redirect:/project/" + projectID + "/" + parentTaskID;
         } else {
@@ -49,11 +48,14 @@ public class TaskController {
         }
     }
 
-    @GetMapping("/project/{projectID}/{taskID}")
-    public String subTaskGET(@PathVariable int projectID, @PathVariable int taskID, Model model){
+    @GetMapping("/project/{projectID}/{parentTaskID}")
+    public String subTaskGET(@PathVariable int projectID, @PathVariable int parentTaskID, Model model){
         //service.getTask(taskID)
         model.addAttribute(projectID);
-        model.addAttribute("tasks", service.getSubTasks(taskID).toArray());
+        model.addAttribute(parentTaskID);
+        model.addAttribute("emptyTask",new Task());
+        model.addAttribute("isParent", false);
+        model.addAttribute("tasks", service.getSubTasks(parentTaskID).toArray());
         return "subTasks";
     }
 
