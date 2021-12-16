@@ -56,7 +56,7 @@ public class UserController {
 
         if(userService.samePassword(requestFromUser)){
             if(userService.submitAccountDetails(requestFromUser)) {
-                return "redirect:/";
+                return "redirect:/user-panel";
             }
         }
         return "redirect:/WrongAccountInfo";
