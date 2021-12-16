@@ -59,7 +59,7 @@ public class UserController {
                 return "redirect:/user-panel";
             }
         }
-        return "redirect:/WrongAccountInfo";
+        return "WrongAccountInfo";
     }
 
     @GetMapping("/")
