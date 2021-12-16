@@ -114,7 +114,8 @@
                                 <td><span th:text="${task.estTime}"></span></td>
                                 <td><span th:text="${task.spentTime}"></span></td>
                                 <td><span th:text="${#temporals.format(task.deadline, 'dd-MMM-yyyy')}"></span></td>
-                                <td><a class="btn-sm btn-primary" role="button" th:href="'/project/' + ${task.getProjectID()} + '/' + ${task.getTaskID()}" th:text="'#' + ${task.taskID} "> </a></td>
+                                <td><a th:if="${task.getParentTaskID() == 0}" class="btn-sm btn-primary" role="button" th:href="'/project/' + ${task.getProjectID()}" th:text="'#' + ${task.taskID}"> </a>
+                                    <a th:if ="${task.getParentTaskID() != 0}" class="btn-sm btn-primary" role="button" th:href="'/project/' + ${task.getProjectID()} + '/' + ${task.getParentTaskID()}" th:text="'#' + ${task.taskID} "> </a></td>
                             </tr>
                             </tbody>
                         </table>
