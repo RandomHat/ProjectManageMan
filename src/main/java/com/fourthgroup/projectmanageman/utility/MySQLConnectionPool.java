@@ -23,7 +23,7 @@ public class MySQLConnectionPool implements ConnectionPool {
     private final String password;
     private final List<Connection> availableConnections;
     private final List<Connection> usedConnections = new ArrayList<>();
-    private final static int INITIAL_POOL_SIZE = 5; // Change at release = 5
+    private final static int INITIAL_POOL_SIZE = 1; // Change at release = 5
     private static int CURRENT_POOL_SIZE = 0;
     private final static int MAXIMUM_POOL_SIZE = 10;
 
