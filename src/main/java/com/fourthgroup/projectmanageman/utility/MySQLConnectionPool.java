@@ -23,8 +23,8 @@ public class MySQLConnectionPool implements ConnectionPool {
     private final String password;
     private final List<Connection> availableConnections;
     private final List<Connection> usedConnections = new ArrayList<>();
-    private final static int INITIAL_POOL_SIZE = 1; // Change at release =5
-    private static int CURRENT_POOL_SIZE = 5;
+    private final static int INITIAL_POOL_SIZE = 5; // Change at release = 5
+    private static int CURRENT_POOL_SIZE = 0;
     private final static int MAXIMUM_POOL_SIZE = 10;
 
     public static MySQLConnectionPool create(String URL)
@@ -67,6 +67,7 @@ public class MySQLConnectionPool implements ConnectionPool {
             connection = availableConnections.remove(availableConnections.size() - 1);
             try {
                 if (!connection.isValid(1)){
+                    CURRENT_POOL_SIZE--; // Needs to balance the counter, since no dropConnection was called due to the connection timing out.
                     connection = addConnection();
                 }
             } catch (SQLException err) {
@@ -106,7 +107,6 @@ public class MySQLConnectionPool implements ConnectionPool {
     }
 
     private Connection addConnection() throws SQLException{
-        CURRENT_POOL_SIZE++;
         return createConnection(url, username,password);
     }
 
@@ -118,6 +118,7 @@ public class MySQLConnectionPool implements ConnectionPool {
     private static Connection createConnection(
             String url, String username, String password)
             throws SQLException {
+        CURRENT_POOL_SIZE++;
         return DriverManager.getConnection(url, username, password);
     }
 }

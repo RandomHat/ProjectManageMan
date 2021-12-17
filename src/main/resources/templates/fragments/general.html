@@ -62,7 +62,7 @@
         <li class="col-7"></li>
         <li class="nav-item col">
             <div class="btn-group">
-                <a class="btn btn-primary" th:href="${session.containsKey('user')} ? '/Logout' : '/Login'" th:text="${session.containsKey('user')} ? 'Sign out' : 'Sign in'"></a>
+                <a class="btn btn-primary" th:href="${session.containsKey('user')} ? '/' : '/'" th:text="${session.containsKey('user')} ? 'Sign out' : 'Sign in'"></a>
             </div>
         </li>
     </ul>
