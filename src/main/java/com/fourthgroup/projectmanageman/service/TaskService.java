@@ -39,6 +39,8 @@ public class TaskService {
         return repository.write(task) != -1;
     }
 
+    public Collection<Task> getTasks(int projectID){return repository.getProjectTasks(projectID);}
+
     public Collection<Task> getSubTasks(int parentTaskID){
         return repository.getSubTasks(parentTaskID);
     }

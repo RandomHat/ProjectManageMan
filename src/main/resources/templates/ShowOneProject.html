@@ -8,8 +8,11 @@
         table, th, td {border: 1px solid black; border-collapse: collapse;}
         th, td, h4 {padding: 8px;}
     </style>
+    <style th:replace="fragments/general.html :: style"></style>
+    <style th:replace="fragments/taskModals.html :: style"></style>
 </head>
 <body>
+<header th:include="fragments/general.html :: header"></header>
 
 <a th:href="'/show-all-projects'"  th:text="'Show all projects'"></a>
 
@@ -34,6 +37,20 @@
     </tr>
 </table>
 
+
+<div class="container min-vh-100">
+    <div class="row justify-content-md-center">
+        <div class="d-flex flex-row flex-wrap justify-content-center">
+            <div th:each="task, itr : ${tasks}">
+                <div th:replace="fragments/taskModals :: task-card(${task})"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row d-inline-flex">
+        <button th:replace="fragments/taskModals.html :: create-task-button"></button>
+    </div>
+</div>
+
 <h4>Assigned Users</h4>
 
 <table class="user">
@@ -52,5 +69,19 @@
     </tr>
 </table>
 
+<footer th:replace="fragments/general.html :: footer"></footer>
+<div>
+    <div th:replace="fragments/taskModals.html :: create-task-modal(${projectId}, ${isParent}, ${emptyTask})"></div>
+</div>
+<div th:each="task : ${tasks}">
+    <div th:replace="fragments/taskModals.html :: task-display-modal(${projectId}, ${task})"></div>
+</div>
+<div th:each="task : ${tasks}">
+    <div th:replace="fragments/taskModals.html :: task-delete-modal(${projectId}, ${task})"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
