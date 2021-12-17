@@ -1,0 +1,183 @@
+<!--
+    ===============================
+    Author: Simon Roswall Jørgensen
+    Date: Dec 11, 2021
+    ===============================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style th:fragment="style">
+        #title {
+            border:none;
+            font-size : 140%;
+        }
+        #title:hover {
+            color:black;
+            border-bottom: #FF325A 4px solid;
+        }
+
+        .task {
+            display:flex;
+            flex-direction: column;
+            margin: 0 0 2% 0;
+        }
+
+        .card {
+            box-shadow: rgba(50, 50, 93, 0.25) 0 2px 5px -1px, rgba(0, 0, 0, 0.3) 0 1px 3px -1px;
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+<!--
+Trigger buttons:
+-->
+
+<div th:fragment="task-card(task)" class="card w-auto m-3">
+    <div class="card-body d-flex flex-column justify-content-center">
+        <h5 class="card-title border-bottom px-5 align-self-center" th:text="${task.getTitle()}">Title</h5>
+        <p class="card-text" th:text="${task.getDescription()}">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean congue sed sem vel euismod.
+            Suspendisse sed enim id libero pulvinar viverra viverra ut dolor.
+            Maecenas condimentum interdum odio id consectetur.
+        </p>
+        <div class="align-self-center mb-3">
+            <span class="border rounded px-3 py-1" th:if="${task.getStatus()} != null" th:text="${task.getStatus()} == null ?: ${task.getStatus().toString()}">status</span>
+        </div>
+        <span class="border-top p0 mb-3"></span>
+        <button type="button" class="btn btn-primary center align-self-center" data-toggle="modal" th:data-target="'#taskDisplay' + ${task.getTaskID()}">Show Details</button>
+    </div>
+</div>
+
+<button th:fragment="create-task-button" type="button" class="btn btn-success m-3 p-3 rounded-pill" data-toggle="modal" data-target="#create-task">Create Task</button>
+
+<!--
+Modals:
+-->
+
+<div th:fragment="create-task-modal(projectID, isParent, task)" class="modal fade" id="create-task" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form th:with="url=(${isParent} ? '/new-task' : '/' + ${parentTaskID} + '/new-task')" th:action="@{'/project/'+ ${projectID} + ${url}}">
+                <div class="modal-header">
+                    <div class="title">
+                        <label for="title"></label>
+                        <input type="text" id="title" name="title" placeholder="Title">
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div th:replace="fragments/taskModals.html :: task-modal-body(task=${task})"></div>
+                <div class="modal-footer">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Save Changes">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="task-display-modal(projectID, task)" class="modal fade" th:id="'taskDisplay' + ${task.getTaskID()}" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" >
+            <form th:action="'/project/' + ${projectID} + '/' + ${task.getTaskID()} + '/update'" method="post" >
+            <div class="modal-header">
+                <div class="title">
+                    <label for="title"></label>
+                    <input type="text" id="title" name="title" th:value="${task.getTitle()}" placeholder="Title">
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div th:fragment="task-modal-body" class="modal-body d-flex flex-column">
+                <input type="hidden" name="project-id" th:value="${task.getProjectID()}">
+                <input type="hidden" name="parent-task-id" th:value="${task.getParentTaskID()}">
+                <div class="task status form-floating">
+                    <select class="form-select"  id="status" name="status" th:value="${task.getStatus()} != null ? ${task.getStatus().ordinal()} : null">
+                        <option label=" "></option>
+                        <option value="0">Started</option>
+                        <option value="1">Pending</option>
+                        <option value="2">Closed</option>
+                    </select>
+                    <label for="status">Status</label>
+                </div>
+                <div class="task type form-floating">
+                    <input class="form-control" type="text" id="type" name="type" th:value="${task.getType()}" placeholder="Type">
+                    <label for="type">Type</label>
+                </div>
+                <div class="task description form-floating">
+                    <textarea class="form-control" id="description" name="description" th:value="${task.getDescription()}" style="height: 150px" placeholder="Enter steps required to complete the task and other relevant information..."></textarea>
+                    <label class="form-label" for="description">Description</label>
+                </div>
+                <div class="task work-product form-floating">
+                    <textarea class="form-control" id="work-product" name="product-description" th:value="${task.getProductDescription()}" style="height: 100px" placeholder="Enter the expected outcome of the task. Ex. a powerpoint for the upcoming meeting."></textarea>
+                    <label for="work-product">Product description</label>
+                </div>
+                <div class="task deadline form-floating">
+                    <input class="form-control" type="date" id="deadline" name="deadline" th:value="${task.getDeadline()}">
+                    <label for="deadline">Deadline</label>
+                </div>
+                <div class="task start-date form-floating">
+                    <input class="form-control" type="date" id="start-date" name="start-date" th:value="${task.getStartDate()}">
+                    <label for="start-date">Start date</label>
+                </div>
+                <div class="task est-hours form-floating">
+                    <input class="form-control" type="number" id="est-hours" name="est-time" th:value="${task.getEstTime()}">
+                    <label for="est-hours">Estimated hours</label>
+
+                </div>
+                <div class="task spent-hours form-floating">
+                    <input class="form-control" type="number" id="spent-hours" name="spent-time" th:value="${task.getSpentTime()}">
+                    <label for="spent-hours">Spent hours</label>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-toggle="modal" th:data-target="'#taskDelete' + ${task.getTaskID()}">Delete</button>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save Changes">
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="task-delete-modal (projectID, task)" class="modal fade" th:id="'taskDelete' + ${task.getTaskID()}" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Delete task</h5>
+            </div>
+            <div class="modal-body">
+                <p>Press the delete button to confirm the deletion of the selected task.</p>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form th:action="'/project/' + ${projectID} + '/' + ${task.getTaskID()} + '/delete'" method="post" >
+                        <input type="submit" id="delete-task-confirmation" value="Delete Button" class="btn btn-danger">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

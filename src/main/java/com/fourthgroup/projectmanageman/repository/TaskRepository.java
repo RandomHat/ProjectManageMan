@@ -122,13 +122,17 @@ public class TaskRepository implements IRepository<Task> {
         return isDeleted;
     }
 
-    public Set<Task> getProjectTasks(int projectID, Status status){
+    public Collection<Task> getSubTasks(int parentTaskID){
+        return querySetOfTasks("SELECT * FROM tasks WHERE parent_task_id =" + parentTaskID + ";");
+    }
+
+    public Collection<Task> getProjectTasks(int projectID, Status status){
         return querySetOfTasks("SELECT * FROM tasks WHERE project_id =" + projectID +
                 " AND status=" + status.ordinal() + ";") ;
     }
 
 
-    public Set<Task> getProjectTasks(int projectID) {
+    public Collection<Task> getProjectTasks(int projectID) {
         return querySetOfTasks("SELECT * FROM tasks WHERE project_id =" + projectID + ";");
     }
 

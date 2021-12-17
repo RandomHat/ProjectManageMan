@@ -25,15 +25,15 @@
                     <div class="col">
                         <div class="row w-100">
                             <div class="col text-center">
-                                <a href="Login.html" class="col d-inline-flex side-menu-button">
-                                    my projects
+                                <a th:href="'/project/user/' + ${user.id}" class="col d-inline-flex side-menu-button">
+                                    My projects
                                 </a>
                             </div>
                         </div>
                         <div class="row w-100">
                             <div class="col text-center">
-                                <a href="Login.html" class="col d-inline-flex side-menu-button">
-                                    W/e
+                                <a href="#" class="col d-inline-flex side-menu-button">
+                                    My Tasks
                                 </a>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="row w-100">
                             <div class="col text-center">
-                                <a href="/user-settings" class="col d-inline-flex side-menu-button">
+                                <a href="#" class="col d-inline-flex side-menu-button">
                                     Make user admin
                                 </a>
                             </div>
@@ -71,7 +71,7 @@
                             <input th:type="text" name="email" class="form-control input-lg" placeholder="Email" required>
                         </div>
                         <div class="col-xs-12 col-md-12 ">
-                            <input th:type="text" name="phonenumber" class="form-control input-lg" placeholder="Phonenumber">
+                            <input th:type="text" name="phonenumber" class="form-control input-lg" placeholder="Phonenumber" required>
                         </div>
                         <div class="col-xs-12 col-md-12">
                             <input th:type="text" name="username" class="form-control input-lg" placeholder="Username" required>

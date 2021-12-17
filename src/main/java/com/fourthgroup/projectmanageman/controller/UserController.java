@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/create-account")
-    public String createAccountView(HttpSession session){
+    public String createAccountView(HttpSession session, Model model){
         if(session.getAttribute("user") == null){
             return "redirect:/";
         }
@@ -47,6 +47,7 @@ public class UserController {
         if(!user.isAdmin()){
             return "redirect:/user-panel";
         }
+        model.addAttribute("user",session.getAttribute("user"));
         return "CreateAccount";
     }
 
@@ -55,10 +56,10 @@ public class UserController {
 
         if(userService.samePassword(requestFromUser)){
             if(userService.submitAccountDetails(requestFromUser)) {
-                return "redirect:/";
+                return "redirect:/user-panel";
             }
         }
-        return "redirect:/WrongAccountInfo";
+        return "WrongAccountInfo";
     }
 
     @GetMapping("/")
@@ -89,7 +90,6 @@ public class UserController {
         model.addAttribute("projectChart",chartService.projectGanttChart(userProjectlist));
         model.addAttribute("taskChart",chartService.taskGanttChart(userTaskList));
 
-        return "/user-panel";
+        return "user-panel";
     }
-
 }

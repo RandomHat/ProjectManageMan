@@ -2,8 +2,9 @@ package com.fourthgroup.projectmanageman.controller;
 
 import com.fourthgroup.projectmanageman.model.AssignedProjectUsers;
 import com.fourthgroup.projectmanageman.model.Project;
+import com.fourthgroup.projectmanageman.model.Task;
 import com.fourthgroup.projectmanageman.model.User;
-import com.fourthgroup.projectmanageman.service.ChartService;
+import com.fourthgroup.projectmanageman.service.TaskService;
 import com.fourthgroup.projectmanageman.service.UserProjectRoleService;
 import com.fourthgroup.projectmanageman.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,14 @@ import java.util.List;
 @Controller
 public class ProjectController {
 
-
+    TaskService taskService;
     ProjectService projectService;
     UserProjectRoleService userProjectRoleService;
-    UserService userService;
 
+    @Autowired
+    public void setTaskService(TaskService taskService){
+        this.taskService = taskService;
+    }
     @Autowired
     public void setProjectService(ProjectService projectService){
         this.projectService = projectService;
@@ -42,10 +46,6 @@ public class ProjectController {
     @Autowired
     public void setUserProjectRoleService(UserProjectRoleService userProjectRoleService){
         this.userProjectRoleService = userProjectRoleService;
-    }
-    @Autowired
-    public void setUserService(UserService userService){
-        this.userService = userService;
     }
 
 
@@ -86,13 +86,15 @@ public class ProjectController {
 
         List<Project> projectList = new ArrayList<>();
         List<AssignedProjectUsers> assignedProjectUsersList = userProjectRoleService.getUsersAssignedToProject(projectId);
-        List<User> userList = userService.getAllUsers();
 
         projectList.add(projectService.getProjectById(projectId));
 
         model.addAttribute("projectList", projectList);
         model.addAttribute("assignedProjectUserList", assignedProjectUsersList);
-        model.addAttribute("userList", userList);
+
+        model.addAttribute("emptyTask",new Task());
+        model.addAttribute("isParent", true);
+        model.addAttribute("tasks", taskService.getTasks(projectId).toArray());
 
         return "ShowOneProject";
     }

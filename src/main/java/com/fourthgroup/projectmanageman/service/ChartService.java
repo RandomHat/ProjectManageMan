@@ -23,45 +23,6 @@ public class ChartService {
     /**
      * Makes array for ganttChartProject js to read
      * @param projectList
-     * @return String array - data for diagram
-     */
-    public String[][] projectChart(List<Project> projectList){
-        String[] firstLineArray = {"'Project'","'Est time'","'time spent'"};
-        String[][] projectArray = new String[projectList.size() + 1][];
-        projectArray[0] = firstLineArray;
-        for (int i = 0; i < projectList.size(); i++) {
-            String[] currentProject = new String[3];
-            currentProject[0] = "'" + projectList.get(i).getTitle() + "'";
-            currentProject[1] = Integer.toString(projectList.get(i).getEstTimeHours());
-            currentProject[2] = Integer.toString(projectList.get(i).getSpentTimeHours());
-            projectArray[i + 1] = currentProject;
-        }
-
-        return projectArray;
-    }
-
-    /**
-     * Makes array for ganttTaskProject js to read
-     * @param userTaskList
-     * @return String[][] - data for js diagram
-     */
-    public String[][] taskChart(List<Task> userTaskList) {
-        String[] firstLineArray = {"'Task'","'Est time'","'time spent'"};
-        String[][] projectArray = new String[userTaskList.size() + 1][];
-        projectArray[0] = firstLineArray;
-        for (int i = 0; i < userTaskList.size(); i++) {
-            String[] currentProject = new String[3];
-            currentProject[0] = "'" + userTaskList.get(i).getTitle() + "'";
-            currentProject[1] = Integer.toString(userTaskList.get(i).getEstTime());
-            currentProject[2] = Integer.toString(userTaskList.get(i).getSpentTime());
-            projectArray[i + 1] = currentProject;
-        }
-        return projectArray;
-    }
-
-    /**
-     * Makes array for ganttChartProject js to read
-     * @param projectList
      * @return array of string arrays
      */
     public String[][] projectGanttChart(List<Project> projectList){
@@ -120,6 +81,7 @@ public class ChartService {
      * @param taskList
      * @return array of string arrays
      */
+
     public String[][] taskGanttChart(List<Task> taskList){
         String[][] dataArrays = new String[taskList.size()][];
 
@@ -170,12 +132,12 @@ public class ChartService {
         return dataArrays;
     }
 
-    private String parentId(Project task, List<Project> taskList){
+    private String parentId(Project project, List<Project> projectList){
         String dependencies = "";
 
-        for(Project currentTask : taskList ){
-            if(currentTask.getParentProjectID() == task.getId()){
-                dependencies += currentTask.getId() + ",";
+        for(Project currentProject : projectList){
+            if(currentProject.getParentProjectID() == project.getId()){
+                dependencies += currentProject.getId() + ",";
             }
         }
         if(dependencies.length() == 0){

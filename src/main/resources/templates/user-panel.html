@@ -19,9 +19,7 @@
 
 </head>
 <body>
-
 <header th:replace="fragments/general :: header"></header>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-2 side-menu">
@@ -29,15 +27,15 @@
                 <div class="col">
                     <div class="row w-100">
                         <div class="col text-center">
-                            <a href="Login.html" class="col d-inline-flex side-menu-button">
-                                my projects
+                            <a th:href="'/project/user/' + ${user.id}" class="col d-inline-flex side-menu-button">
+                                My Projects
                             </a>
                         </div>
                     </div>
                     <div class="row w-100">
                         <div class="col text-center">
-                            <a href="Login.html" class="col d-inline-flex side-menu-button">
-                                W/e
+                            <a href="#" class="col d-inline-flex side-menu-button">
+                                My Tasks
                             </a>
                         </div>
                     </div>
@@ -50,7 +48,7 @@
                     </div>
                     <div class="row w-100">
                         <div class="col text-center">
-                            <a th:if="${user.isAdmin == true}" href="/user-settings" class="col d-inline-flex side-menu-button">
+                            <a th:if="${user.isAdmin == true}" href="#" class="col d-inline-flex side-menu-button">
                                 Make user admin
                             </a>
                         </div>
@@ -116,7 +114,8 @@
                                 <td><span th:text="${task.estTime}"></span></td>
                                 <td><span th:text="${task.spentTime}"></span></td>
                                 <td><span th:text="${#temporals.format(task.deadline, 'dd-MMM-yyyy')}"></span></td>
-                                <td><a class="btn-sm btn-primary" role="button" th:href="'/Task/' + ${task.taskID}" th:text="'#' + ${task.taskID} "> </a></td>
+                                <td><a th:if="${task.getParentTaskID() == 0}" class="btn-sm btn-primary" role="button" th:href="'/project/' + ${task.getProjectID()}" th:text="'#' + ${task.taskID}"> </a>
+                                    <a th:if ="${task.getParentTaskID() != 0}" class="btn-sm btn-primary" role="button" th:href="'/project/' + ${task.getProjectID()} + '/' + ${task.getParentTaskID()}" th:text="'#' + ${task.taskID} "> </a></td>
                             </tr>
                             </tbody>
                         </table>
@@ -125,12 +124,12 @@
             </div>
             <div class="row">
                 <div class="col-12 col-lg-6 mt-4">
-                    <div class="round-border box-shadow h-100 pb-2" id="project-container" th:if="${projects.size()> 0}">
+                    <div class="round-border box-shadow h-100 pb-2" id="project-container" th:if="${!tasks.empty}">
                         <h3>Gantt Project diagram</h3>
                         <div  th:replace="fragments/ganttChartProject::chartProjectBody"></div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6 mt-4" th:if="${tasks.size() > 0}">
+                <div class="col-12 col-lg-6 mt-4" th:if="${!tasks.empty}">
                     <div class="round-border box-shadow h-100 pb-2" id="task-container">
                         <h3>Gantt Task diagram</h3>
                         <div th:replace="fragments/ganttChartTask :: chartTaskBody"></div>
