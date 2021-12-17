@@ -102,8 +102,10 @@ Modals:
                 </button>
             </div>
             <div th:fragment="task-modal-body" class="modal-body d-flex flex-column">
+                <input type="hidden" name="project-id" th:value="${task.getProjectID()}">
+                <input type="hidden" name="parent-task-id" th:value="${task.getParentTaskID()}">
                 <div class="task status form-floating">
-                    <select class="form-select"  id="status" name="status" th:value="${task.getStatus()} != null ? ${task.getStatus()} : null">
+                    <select class="form-select"  id="status" name="status" th:value="${task.getStatus()} != null ? ${task.getStatus().ordinal()} : null">
                         <option label=" "></option>
                         <option value="0">Started</option>
                         <option value="1">Pending</option>
@@ -120,7 +122,7 @@ Modals:
                     <label class="form-label" for="description">Description</label>
                 </div>
                 <div class="task work-product form-floating">
-                    <textarea class="form-control" id="work-product" name="work-product" th:value="${task.getProductDescription()}" style="height: 100px" placeholder="Enter the expected outcome of the task. Ex. a powerpoint for the upcoming meeting."></textarea>
+                    <textarea class="form-control" id="work-product" name="product-description" th:value="${task.getProductDescription()}" style="height: 100px" placeholder="Enter the expected outcome of the task. Ex. a powerpoint for the upcoming meeting."></textarea>
                     <label for="work-product">Product description</label>
                 </div>
                 <div class="task deadline form-floating">
@@ -132,12 +134,12 @@ Modals:
                     <label for="start-date">Start date</label>
                 </div>
                 <div class="task est-hours form-floating">
-                    <input class="form-control" type="number" id="est-hours" name="est-hours" th:value="${task.getEstTime()}">
+                    <input class="form-control" type="number" id="est-hours" name="est-time" th:value="${task.getEstTime()}">
                     <label for="est-hours">Estimated hours</label>
 
                 </div>
                 <div class="task spent-hours form-floating">
-                    <input class="form-control" type="number" id="spent-hours" name="spent-hours" th:value="${task.getSpentTime()}">
+                    <input class="form-control" type="number" id="spent-hours" name="spent-time" th:value="${task.getSpentTime()}">
                     <label for="spent-hours">Spent hours</label>
                 </div>
             </div>

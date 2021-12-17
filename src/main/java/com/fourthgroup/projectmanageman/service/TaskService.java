@@ -56,22 +56,30 @@ public class TaskService {
 
     private Task parseTask(WebRequest taskForm, Task task){
         task.setTitle(taskForm.getParameter("title"));
+
+        task.setProjectID(Integer.parseInt(taskForm.getParameter("project-id")));
+        task.setParentTaskID(Integer.parseInt(taskForm.getParameter("parent-task-id")));
+
+        String statusRaw = taskForm.getParameter("status");
+        Status status = "".equals(statusRaw)  ? null : Status.fromInteger(Integer.parseInt(statusRaw));
+        task.setStatus(status);
+
         task.setType(taskForm.getParameter("type"));
         task.setDescription(taskForm.getParameter("description"));
         task.setProductDescription(taskForm.getParameter("product-description"));
-        task.setEstTime(Integer.parseInt(Objects.requireNonNull(taskForm.getParameter("est-time"))));
 
-        String startDateRaw = taskForm.getParameter("start-date");
-        LocalDate startDate = "".equals(startDateRaw) ? null : LocalDate.parse(startDateRaw);
-        task.setStartDate(startDate);
+        task.setEstTime(Integer.parseInt(taskForm.getParameter("est-time")));
+        task.setSpentTime(Integer.parseInt(taskForm.getParameter("spent-time")));
 
         String deadlineRaw = taskForm.getParameter("deadline");
-        LocalDate deadline = "".equals(deadlineRaw) ? null : LocalDate.parse(deadlineRaw);
+        LocalDate deadline = "".equals(deadlineRaw) || deadlineRaw == null ? null : LocalDate.parse(deadlineRaw);
         task.setDeadline(deadline);
 
-        String statusRaw = taskForm.getParameter("status");
-        Status status = statusRaw == null ? null : Status.fromInteger(Integer.parseInt(statusRaw));
-        task.setStatus(status);
+        String startDateRaw = taskForm.getParameter("start-date");
+        LocalDate startDate = "".equals(startDateRaw) || startDateRaw == null ? null : LocalDate.parse(startDateRaw);
+        task.setStartDate(startDate);
+
+
         return task;
     }
 
