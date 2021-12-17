@@ -90,6 +90,6 @@ public class UserController {
         model.addAttribute("projectChart",chartService.projectGanttChart(userProjectlist));
         model.addAttribute("taskChart",chartService.taskGanttChart(userTaskList));
 
-        return "/user-panel";
+        return "user-panel";
     }
 }
