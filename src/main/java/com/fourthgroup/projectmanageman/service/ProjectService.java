@@ -11,6 +11,7 @@ import com.fourthgroup.projectmanageman.model.Project;
 import com.fourthgroup.projectmanageman.model.Status;
 import com.fourthgroup.projectmanageman.model.User;
 import com.fourthgroup.projectmanageman.repository.ProjectRepository;
+import com.fourthgroup.projectmanageman.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
@@ -22,9 +23,18 @@ import java.util.List;
 @Service
 public class ProjectService {
 
+    ProjectRepository projectRepo;
     @Autowired
-    private final ProjectRepository projectRepo = new ProjectRepository();
+    public void setRepository(ProjectRepository projectRepo){
+        this.projectRepo = projectRepo;
+    }
 
+    public int writeNewProject (Project project){
+        int projectID = 0;
+
+        projectID = projectRepo.writeNewProjectComplete(project);
+        return projectID;
+    }
 
     public Project getProjectById (int id){
         return projectRepo.getProjectById(id);
@@ -54,11 +64,4 @@ public class ProjectService {
         return projectRepo.deleteProject(projectId);
     }
 
-
-    public int writeNewProject (Project project){
-        int projectID = 0;
-
-        projectID = projectRepo.writeNewProjectComplete(project);
-        return projectID;
-    }
 }
