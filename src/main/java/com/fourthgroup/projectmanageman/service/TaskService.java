@@ -9,6 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -57,19 +58,21 @@ public class TaskService {
     private Task parseTask(WebRequest taskForm, Task task){
         task.setTitle(taskForm.getParameter("title"));
 
-        task.setProjectID(Integer.parseInt(taskForm.getParameter("project-id")));
-        task.setParentTaskID(Integer.parseInt(taskForm.getParameter("parent-task-id")));
+        String parentTaskIDRaw = taskForm.getParameter("parent-task-id");
+        Integer parentTaskID = "".equals(parentTaskIDRaw) || parentTaskIDRaw == null ? null : Integer.parseInt(parentTaskIDRaw);
+        task.setParentTaskID(parentTaskID);
+
+        String projectIDRaw = taskForm.getParameter("project-id");
+        Integer projectID = "".equals(projectIDRaw) || projectIDRaw == null ? null : Integer.parseInt(projectIDRaw);
+        task.setProjectID(projectID);
 
         String statusRaw = taskForm.getParameter("status");
-        Status status = "".equals(statusRaw)  ? null : Status.fromInteger(Integer.parseInt(statusRaw));
+        Status status = "".equals(statusRaw) || null == statusRaw  ? null : Status.valueOf(statusRaw.toUpperCase(Locale.ROOT));
         task.setStatus(status);
 
         task.setType(taskForm.getParameter("type"));
         task.setDescription(taskForm.getParameter("description"));
         task.setProductDescription(taskForm.getParameter("product-description"));
-
-        task.setEstTime(Integer.parseInt(taskForm.getParameter("est-time")));
-        task.setSpentTime(Integer.parseInt(taskForm.getParameter("spent-time")));
 
         String deadlineRaw = taskForm.getParameter("deadline");
         LocalDate deadline = "".equals(deadlineRaw) || deadlineRaw == null ? null : LocalDate.parse(deadlineRaw);
@@ -79,6 +82,14 @@ public class TaskService {
         LocalDate startDate = "".equals(startDateRaw) || startDateRaw == null ? null : LocalDate.parse(startDateRaw);
         task.setStartDate(startDate);
 
+        String estTimeRaw = taskForm.getParameter("est-time");
+        Integer estTime = "".equals(estTimeRaw) || estTimeRaw == null ? null : Integer.parseInt(estTimeRaw);
+        task.setEstTime(estTime);
+
+
+        String spentTimeRaw = taskForm.getParameter("spent-time");
+        Integer spentTime = "".equals(spentTimeRaw) || spentTimeRaw == null ? null : Integer.parseInt(spentTimeRaw);
+        task.setSpentTime(spentTime);
 
         return task;
     }

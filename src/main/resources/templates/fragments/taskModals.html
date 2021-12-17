@@ -50,7 +50,7 @@ Trigger buttons:
             Maecenas condimentum interdum odio id consectetur.
         </p>
         <div class="align-self-center mb-3">
-            <span class="border rounded px-3 py-1" th:if="${task.getStatus()} != null" th:text="${task.getStatus()} == null ?: ${task.getStatus().toString()}">status</span>
+            <span class="border rounded px-3 py-1" th:if="${task.getStatus()} != null" th:text="${task.getStatus().toString()}"></span>
         </div>
         <span class="border-top p0 mb-3"></span>
         <button type="button" class="btn btn-primary center align-self-center" data-toggle="modal" th:data-target="'#taskDisplay' + ${task.getTaskID()}">Show Details</button>
@@ -66,11 +66,13 @@ Modals:
 <div th:fragment="create-task-modal(projectID, isParent, task)" class="modal fade" id="create-task" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <form th:with="url=(${isParent} ? '/new-task' : '/' + ${parentTaskID} + '/new-task')" th:action="@{'/project/'+ ${projectID} + ${url}}">
+            <form th:with="url=(${isParent} ? '/new-task' : '/' + ${parentTaskID} + '/new-task')" th:action="@{'/project/'+ ${projectID} + ${url}}" method="post">
                 <div class="modal-header">
                     <div class="title">
                         <label for="title"></label>
-                        <input type="text" id="title" name="title" placeholder="Title">
+                        <input type="text" id="title" name="title" placeholder="Title" required>
+                        <input type="hidden" name="parent-task-id" th:value="${isParent} ? ${parentTaskID} : null ">
+                        <input type="hidden" name="project-id" th:value="${projectID}">
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -96,20 +98,18 @@ Modals:
                 <div class="title">
                     <label for="title"></label>
                     <input type="text" id="title" name="title" th:value="${task.getTitle()}" placeholder="Title">
+                    <input type="hidden" name="project-id" th:value="${task.getProjectID()}">
+                    <input type="hidden" name="parent-task-id" th:value="${task.getParentTaskID()}">
                 </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div th:fragment="task-modal-body" class="modal-body d-flex flex-column">
-                <input type="hidden" name="project-id" th:value="${task.getProjectID()}">
-                <input type="hidden" name="parent-task-id" th:value="${task.getParentTaskID()}">
                 <div class="task status form-floating">
-                    <select class="form-select"  id="status" name="status" th:value="${task.getStatus()} != null ? ${task.getStatus().ordinal()} : null">
-                        <option label=" "></option>
-                        <option value="0">Started</option>
-                        <option value="1">Pending</option>
-                        <option value="2">Closed</option>
+                    <select class="form-select" name="status">
+                        <option th:each="status : ${T(com.fourthgroup.projectmanageman.model.Status).values()}"
+                        th:value="${status}" th:text="${status}" th:selected="${status == task.getStatus()}"></option>
                     </select>
                     <label for="status">Status</label>
                 </div>
@@ -118,11 +118,11 @@ Modals:
                     <label for="type">Type</label>
                 </div>
                 <div class="task description form-floating">
-                    <textarea class="form-control" id="description" name="description" th:value="${task.getDescription()}" style="height: 150px" placeholder="Enter steps required to complete the task and other relevant information..."></textarea>
+                    <textarea class="form-control" id="description" name="description" th:text="${task.getDescription()}" style="height: 150px" placeholder="Enter steps required to complete the task and other relevant information..."></textarea>
                     <label class="form-label" for="description">Description</label>
                 </div>
                 <div class="task work-product form-floating">
-                    <textarea class="form-control" id="work-product" name="product-description" th:value="${task.getProductDescription()}" style="height: 100px" placeholder="Enter the expected outcome of the task. Ex. a powerpoint for the upcoming meeting."></textarea>
+                    <textarea class="form-control" id="work-product" name="product-description" th:text="${task.getProductDescription()}" style="height: 100px" placeholder="Enter the expected outcome of the task. Ex. a powerpoint for the upcoming meeting."></textarea>
                     <label for="work-product">Product description</label>
                 </div>
                 <div class="task deadline form-floating">

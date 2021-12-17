@@ -1,7 +1,7 @@
 package com.fourthgroup.projectmanageman.model;
 
 public enum Status {
-    STARTED("Started"), PENDING("Pending"), CLOSED("Closed");
+     PENDING("Pending"), STARTED("Started"), CLOSED("Closed");
 
     private final String status;
     private Status(String status){
@@ -16,9 +16,9 @@ public enum Status {
     public static Status fromInteger(int x) {
         switch(x) {
             case 0:
-                return STARTED;
-            case 1:
                 return PENDING;
+            case 1:
+                return STARTED;
             case 2:
                 return CLOSED;
         }

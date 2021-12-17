@@ -110,11 +110,11 @@ public class Task {
         return status;
     }
 
-    public void setProjectID(int projectID){
+    public void setProjectID(Integer projectID){
         this.projectID = projectID;
     }
 
-    public void setParentTaskID(int parentTaskID) {
+    public void setParentTaskID(Integer parentTaskID) {
         this.parentTaskID = parentTaskID;
     }
 
@@ -134,11 +134,11 @@ public class Task {
         this.productDescription = productDescription;
     }
 
-    public void setEstTime(int estTime) {
+    public void setEstTime(Integer estTime) {
         this.estTime = estTime;
     }
 
-    public void setSpentTime(int spentTime) {
+    public void setSpentTime(Integer spentTime) {
         this.spentTime = spentTime;
     }
 

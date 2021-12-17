@@ -24,9 +24,7 @@ public class TaskController {
     TaskService service;
 
     @PostMapping("/project/{projectID}/new-task")
-    public String createTaskPOST(@PathVariable("projectID") int projectID, WebRequest taskForm, Model model, HttpSession session){
-        model.addAttribute(projectID);
-        model.addAttribute("isParent", true);
+    public String createTaskPOST(@PathVariable("projectID") int projectID, WebRequest taskForm, HttpSession session){
         if (service.createTask(taskForm, projectID)) {
             return "redirect:/project/" + projectID;
         } else {
@@ -35,9 +33,7 @@ public class TaskController {
     }
 
     @PostMapping("/project/{projectID}/{parentTaskID}/new-task")
-    public String createSubTaskPOST(@PathVariable int projectID, @PathVariable int parentTaskID, Model model, WebRequest taskForm, HttpSession session){
-        model.addAttribute(projectID);
-        model.addAttribute(parentTaskID);
+    public String createSubTaskPOST(@PathVariable int projectID, @PathVariable int parentTaskID, WebRequest taskForm, HttpSession session){
         if (service.createTask(taskForm, projectID, parentTaskID)) {
             return "redirect:/project/" + projectID + "/" + parentTaskID;
         } else {
