@@ -68,4 +68,8 @@ public class UserService {
         User user = (User) session.getAttribute("user");
         return userRepository.userTaskList(user.getId());
     }
+
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
+    }
 }
